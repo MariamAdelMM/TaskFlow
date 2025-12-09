@@ -8,11 +8,35 @@ class SplashScreen extends StatefulWidget {
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> {
+class _SplashScreenState extends State<SplashScreen>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _controller; // drives the timing;
+  late final Animation<double>
+  _moveAnimation; //produces the vertical offset (in pixels).
   @override
   void initState() {
     super.initState();
-    Timer(const Duration(seconds: 30), () {
+
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(
+        milliseconds: 750,
+      ), // 750 to do 4 ups and downs IN 3 Seconds
+    );
+    _moveAnimation = Tween<double>(
+      begin: 0,
+      end: -20,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
+    _controller.repeat(reverse: true);
+
+    ///ANOTHER CORRECT WAY////
+    // _moveAnimation = TweenSequence<double>([
+    //   TweenSequenceItem(tween: Tween(begin: 0.0, end: -20.0), weight: 1),
+    //   TweenSequenceItem(tween: Tween(begin: -20.0, end: 0.0), weight: 1),
+    // ]).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
+    // _controller.forward();  //RUN ONCE UP & DOWN
+
+    Timer(const Duration(seconds: 3), () {
       Navigator.pushReplacementNamed(context, '/home');
       // pushReplacement() removes the splash screen from stack so user can’t return to it by clicking back.
       // Navigator.pushReplacement( => Pushes HomeScreen() as the new first screen.
@@ -20,6 +44,12 @@ class _SplashScreenState extends State<SplashScreen> {
       //   MaterialPageRoute(builder: (context) => HomeScreen()),
       // );
     });
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
   @override
@@ -45,10 +75,22 @@ class _SplashScreenState extends State<SplashScreen> {
             children: [
               const Spacer(flex: 2),
 
-              Icon(
-                Icons.check_box_outlined,
-                size: 90,
-                color: const Color.fromARGB(255, 135, 43, 235),
+              AnimatedBuilder(
+                animation: _moveAnimation,
+                builder: (context, child) {
+                  // Efficient way to animate parts of the UI without rebuilding the whole widget tree.
+                  // You pass child separately so Flutter doesn’t rebuild widgets that don’t change.
+                  return Transform.translate(
+                    //Moves a widget without changing layout.
+                    offset: Offset(0, _moveAnimation.value),
+                    child: child,
+                  );
+                },
+                child: Icon(
+                  Icons.check_box_outlined,
+                  size: 90,
+                  color: const Color.fromARGB(255, 135, 43, 235),
+                ),
               ),
               const SizedBox(height: 24),
 
