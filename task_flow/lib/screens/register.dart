@@ -8,8 +8,11 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<RegisterScreen> {
   final _formKey = GlobalKey<FormState>();
+  final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
   bool _isPasswordVisible = false;
 
   @override
@@ -25,22 +28,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Container(
-                width: 80,
-                height: 80,
-                decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.primaryContainer,
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Icon(
-                  Icons.login_rounded,
-                  size: 60,
-                  color: Theme.of(context).colorScheme.onPrimaryContainer,
-                ),
-              ),
               const SizedBox(height: 40),
               Text(
-                "Welcome REGISTER",
+                "Create Account",
                 style: TextStyle(
                   fontSize: 28,
                   fontWeight: FontWeight.bold,
@@ -49,10 +39,31 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ),
               const SizedBox(height: 10),
               Text(
-                "Let't get productive.",
+                "Start managing your tasks professionally.",
                 style: TextStyle(fontSize: 16, color: Colors.grey),
               ),
               const SizedBox(height: 40),
+              TextFormField(
+                style: const TextStyle(color: Colors.white, fontSize: 16),
+                controller: _nameController,
+                keyboardType: TextInputType.name,
+                decoration: InputDecoration(
+                  labelText: "Full Name",
+                  labelStyle: const TextStyle(color: Colors.white),
+                  suffixIcon: Icon(Icons.person),
+                  suffixIconColor: Color.fromRGBO(192, 133, 252, 1),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty)
+                    return "Full Name is required";
+                  return null;
+                },
+              ),
+              const SizedBox(height: 24),
+
               TextFormField(
                 style: const TextStyle(color: Colors.white, fontSize: 16),
                 controller: _emailController,
@@ -60,8 +71,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 decoration: InputDecoration(
                   labelText: "Email",
                   labelStyle: const TextStyle(color: Colors.white),
-                  prefixIcon: Icon(Icons.email),
-                  prefixIconColor: Colors.white,
+                  suffixIcon: Icon(Icons.email),
+                  suffixIconColor: Color.fromRGBO(244, 114, 183, 1),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
@@ -81,21 +92,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 decoration: InputDecoration(
                   labelText: "Password",
                   labelStyle: const TextStyle(color: Colors.white),
-                  prefixIcon: Icon(Icons.lock),
-                  prefixIconColor: Colors.white,
-                  suffixIcon: IconButton(
-                    color: Colors.white,
-                    icon: Icon(
-                      _isPasswordVisible
-                          ? Icons.visibility
-                          : Icons.visibility_off,
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        _isPasswordVisible = !_isPasswordVisible;
-                      });
-                    },
-                  ),
+                  suffixIcon: Icon(Icons.lock),
+                  suffixIconColor: Color.fromRGBO(32, 212, 239, 1),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
@@ -108,17 +106,30 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   return null;
                 },
               ),
+              const SizedBox(height: 24),
 
-              Align(
-                alignment: Alignment.centerRight,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  child: Text(
-                    'Forgot Password?',
-                    style: TextStyle(color: Colors.white, fontSize: 14),
+              TextFormField(
+                style: const TextStyle(color: Colors.white, fontSize: 16),
+                controller: _confirmPasswordController,
+                decoration: InputDecoration(
+                  labelText: "Confirm Password",
+                  labelStyle: const TextStyle(color: Colors.white),
+                  suffixIcon: Icon(Icons.password_sharp),
+                  suffixIconColor: Color.fromRGBO(52, 211, 153, 1),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
                   ),
                 ),
+                validator: (value) {
+                  if (value == null || value.isEmpty)
+                    return "Confirm Password is required";
+                  if (value != _passwordController.text) {
+                    return "Passwords don't match";
+                  }
+                  return null;
+                },
               ),
+
               const SizedBox(height: 30),
               SizedBox(
                 width: double.infinity,
@@ -130,10 +141,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                   ),
                   onPressed: () {
-                    if (_formKey.currentState!.validate()) {}
+                    if (_formKey.currentState!.validate()) {
+                      Navigator.pushReplacementNamed(context, '/home');
+                    }
                   },
                   child: const Text(
-                    "Login",
+                    "Register",
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                 ),

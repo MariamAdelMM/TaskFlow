@@ -21,6 +21,7 @@ class ScreenWrapper extends StatelessWidget {
       appBar: AppBar(
         title: Text(title),
         systemOverlayStyle: SystemUiOverlayStyle.light,
+        centerTitle: true,
       ),
       body: child,
     );
@@ -57,11 +58,11 @@ void main() {
         '/splash': (context) =>
             const ScreenWrapper(title: '', child: SplashScreen()),
         '/home': (context) =>
-            const ScreenWrapper(title: 'HomeScreen', child: HomeScreen()),
+            const ScreenWrapper(title: '', child: HomeScreen()),
         '/login': (context) =>
             const ScreenWrapper(title: '', child: LoginScreen()),
         '/register': (context) =>
-            const ScreenWrapper(title: '', child: RegisterScreen()),
+            const ScreenWrapper(title: 'Register', child: RegisterScreen()),
       },
     ),
   );

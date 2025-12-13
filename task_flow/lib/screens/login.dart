@@ -138,6 +138,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       //validate prop Runs only when we call:_formKey.currentState!.validate()
                       // print("Email: ${_emailController.text}");
                       // print("Password: ${_passwordController.text}");
+                      Navigator.pushReplacementNamed(context, '/home');
                     }
                   },
                   child: const Text(

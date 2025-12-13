@@ -5,6 +5,6 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AppBar(title: Text('HomeScreen'), centerTitle: true);
+    return Container(width: 100, height: 100, child: Text('Home'));
   }
 }
