@@ -1,19 +1,14 @@
 import 'package:flutter/material.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class RegisterScreen extends StatefulWidget {
+  const RegisterScreen({super.key});
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<RegisterScreen> createState() => _RegisterScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _RegisterScreenState extends State<RegisterScreen> {
   final _formKey = GlobalKey<FormState>();
-  // Creates a unique key for a Form widget.
-  // Allows you to access and control the form’s state. used to
-  // Validate inputs → _formKey.currentState!.validate()
-  // Save form data → _formKey.currentState!.save()
-  final TextEditingController _emailController =
-      TextEditingController(); //read, set, clear value at anytime user types in input
+  final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool _isPasswordVisible = false;
 
@@ -45,7 +40,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               const SizedBox(height: 40),
               Text(
-                "Welcome Back",
+                "Welcome REGISTER",
                 style: TextStyle(
                   fontSize: 28,
                   fontWeight: FontWeight.bold,
@@ -113,13 +108,14 @@ class _LoginScreenState extends State<LoginScreen> {
                   return null;
                 },
               ),
+
               Align(
-                alignment: Alignment.topRight,
+                alignment: Alignment.centerRight,
                 child: Padding(
-                  padding: const EdgeInsets.only(top: 10),
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
                   child: Text(
                     'Forgot Password?',
-                    style: TextStyle(color: Colors.grey, fontSize: 14),
+                    style: TextStyle(color: Colors.white, fontSize: 14),
                   ),
                 ),
               ),
@@ -134,44 +130,11 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                   onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      //validate prop Runs only when we call:_formKey.currentState!.validate()
-                      // print("Email: ${_emailController.text}");
-                      // print("Password: ${_passwordController.text}");
-                    }
+                    if (_formKey.currentState!.validate()) {}
                   },
                   child: const Text(
                     "Login",
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                ),
-              ),
-              Align(
-                alignment: Alignment.center,
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 40),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Dont have an account? ',
-                        style: TextStyle(color: Colors.grey, fontSize: 14),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          // Navigator.pushReplacementNamed(context, '/register');//usercannot go back
-                          Navigator.pushNamed(context, '/register');
-                        },
-                        child: Text(
-                          'Sign Up',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ],
                   ),
                 ),
               ),

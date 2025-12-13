@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:task_flow/screens/home.dart';
 import 'package:task_flow/screens/login.dart';
+import 'package:task_flow/screens/register.dart';
 import 'package:task_flow/screens/splash.dart';
 
 var kColorScheme = ColorScheme.fromSeed(
@@ -59,6 +60,8 @@ void main() {
             const ScreenWrapper(title: 'HomeScreen', child: HomeScreen()),
         '/login': (context) =>
             const ScreenWrapper(title: '', child: LoginScreen()),
+        '/register': (context) =>
+            const ScreenWrapper(title: '', child: RegisterScreen()),
       },
     ),
   );

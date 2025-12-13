@@ -71,8 +71,7 @@ class _SplashScreenState extends State<SplashScreen>
 
       child: Column(
         children: [
-          const Spacer(flex: 2),
-
+          const Spacer(flex: 3),
           AnimatedBuilder(
             animation: _moveAnimation,
             builder: (context, child) {
@@ -87,7 +86,7 @@ class _SplashScreenState extends State<SplashScreen>
             child: Icon(
               Icons.check_box_outlined,
               size: 90,
-              color: const Color.fromARGB(255, 135, 43, 235),
+              color: Theme.of(context).colorScheme.primaryContainer,
             ),
           ),
           const SizedBox(height: 24),
