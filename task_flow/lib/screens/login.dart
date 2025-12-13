@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -133,12 +134,29 @@ class _LoginScreenState extends State<LoginScreen> {
                       borderRadius: BorderRadius.circular(12),
                     ),
                   ),
-                  onPressed: () {
+                  onPressed: () async {
+                    //validate prop Runs only when we call:_formKey.currentState!.validate()
+                    // print("Email: ${_emailController.text}");
+                    // print("Password: ${_passwordController.text}");
                     if (_formKey.currentState!.validate()) {
-                      //validate prop Runs only when we call:_formKey.currentState!.validate()
-                      // print("Email: ${_emailController.text}");
-                      // print("Password: ${_passwordController.text}");
-                      Navigator.pushReplacementNamed(context, '/home');
+                      final prefs = await SharedPreferences.getInstance();
+                      String? savedEmail = prefs.getString('user_email');
+                      String? savedPassword = prefs.getString('user_password');
+
+                      String enteredEmail = _emailController.text
+                          .trim(); //to clear whitespaces
+                      String enteredPassword = _passwordController.text.trim();
+
+                      if (enteredEmail == savedEmail &&
+                          enteredPassword == savedPassword) {
+                        Navigator.pushReplacementNamed(context, '/home');
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Invalid email or password!'),
+                          ),
+                        );
+                      }
                     }
                   },
                   child: const Text(

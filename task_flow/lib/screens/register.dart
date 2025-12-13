@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -13,7 +14,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPasswordController =
       TextEditingController();
-  bool _isPasswordVisible = false;
+
+  Future<void> saveUser(String name, String email, String password) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('name', name);
+    await prefs.setString('user_email', email);
+    await prefs.setString('user_password', password);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -88,7 +95,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
               TextFormField(
                 style: const TextStyle(color: Colors.white, fontSize: 16),
                 controller: _passwordController,
-                obscureText: !_isPasswordVisible,
                 decoration: InputDecoration(
                   labelText: "Password",
                   labelStyle: const TextStyle(color: Colors.white),
@@ -140,8 +146,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       borderRadius: BorderRadius.circular(12),
                     ),
                   ),
-                  onPressed: () {
+                  onPressed: () async {
                     if (_formKey.currentState!.validate()) {
+                      await saveUser(
+                        _nameController.text,
+                        _emailController.text,
+                        _passwordController.text,
+                      );
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Registration successful'),
+                        ),
+                      );
+
                       Navigator.pushReplacementNamed(context, '/home');
                     }
                   },
