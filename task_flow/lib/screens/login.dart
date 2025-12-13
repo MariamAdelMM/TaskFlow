@@ -150,6 +150,11 @@ class _LoginScreenState extends State<LoginScreen> {
                       if (enteredEmail == savedEmail &&
                           enteredPassword == savedPassword) {
                         Navigator.pushReplacementNamed(context, '/home');
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Logged In Successfully'),
+                          ),
+                        );
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
