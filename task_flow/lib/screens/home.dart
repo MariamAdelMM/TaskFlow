@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -10,6 +11,11 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   String name = '';
+
+  String capitalize(String value) {
+    if (value.isEmpty) return value;
+    return value[0].toUpperCase() + value.substring(1).toLowerCase();
+  }
 
   void _loadName() async {
     final prefs = await SharedPreferences.getInstance();
@@ -27,14 +33,73 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black87,
-      body: Center(
-        child: Text(
-          'Welcome, $name!',
-          style: const TextStyle(
-            fontSize: 24,
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
+      appBar: AppBar(
+        systemOverlayStyle: SystemUiOverlayStyle.light,
+        toolbarHeight: 0,
+      ),
+      backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
+
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  Container(
+                    width: 40,
+                    height: 40,
+                    decoration: BoxDecoration(
+                      color: const Color.fromARGB(255, 227, 216, 184),
+                      borderRadius: BorderRadius.circular(24),
+                    ),
+                    child: Icon(
+                      Icons.person,
+                      size: 24,
+                      color: Theme.of(context).colorScheme.onSecondaryContainer,
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Text(
+                    'Welcome, ${capitalize(name)}!',
+
+                    style: const TextStyle(
+                      fontSize: 24,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //   children: [
+              //     Container(width: 100, height: 100, color: Colors.amber),
+              //     Container(width: 100, height: 100, color: Colors.amber),
+              //     Container(width: 100, height: 100, color: Colors.amber),
+              //   ],
+              // ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: List.generate(
+                  3,
+                  (index) => Container(
+                    width: 100,
+                    height: 150,
+                    decoration: BoxDecoration(
+                      color: Color.fromRGBO(31, 22, 43, 0.5),
+                      borderRadius: BorderRadius.circular(16),
+                      border: Border.all(
+                        color: Theme.of(
+                          context,
+                        ).colorScheme.onPrimary.withOpacity(0.5),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ),

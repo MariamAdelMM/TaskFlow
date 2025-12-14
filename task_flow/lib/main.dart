@@ -9,25 +9,6 @@ var kColorScheme = ColorScheme.fromSeed(
   seedColor: const Color.fromRGBO(30, 0, 50, 1),
 );
 
-class ScreenWrapper extends StatelessWidget {
-  final Widget child;
-  final String title;
-
-  const ScreenWrapper({required this.child, required this.title, super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(title),
-        systemOverlayStyle: SystemUiOverlayStyle.light,
-        centerTitle: true,
-      ),
-      body: child,
-    );
-  }
-}
-
 void main() {
   runApp(
     MaterialApp(
@@ -55,14 +36,10 @@ void main() {
       debugShowCheckedModeBanner: false,
       initialRoute: '/splash',
       routes: {
-        '/splash': (context) =>
-            const ScreenWrapper(title: '', child: SplashScreen()),
-        '/home': (context) =>
-            const ScreenWrapper(title: '', child: HomeScreen()),
-        '/login': (context) =>
-            const ScreenWrapper(title: '', child: LoginScreen()),
-        '/register': (context) =>
-            const ScreenWrapper(title: 'Register', child: RegisterScreen()),
+        '/splash': (context) => const SplashScreen(),
+        '/home': (context) => const HomeScreen(),
+        '/login': (context) => const LoginScreen(),
+        '/register': (context) => const RegisterScreen(),
       },
     ),
   );

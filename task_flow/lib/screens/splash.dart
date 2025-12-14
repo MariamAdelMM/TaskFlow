@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -54,73 +55,80 @@ class _SplashScreenState extends State<SplashScreen>
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      height: double.infinity,
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          colors: [
-            Color.fromRGBO(30, 0, 50, 1),
-            Color.fromRGBO(15, 0, 40, 1),
-            Color.fromRGBO(2, 43, 58, 1),
-          ],
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-        ),
-      ),
-
-      child: Column(
-        children: [
-          const Spacer(flex: 3),
-          AnimatedBuilder(
-            animation: _moveAnimation,
-            builder: (context, child) {
-              // Efficient way to animate parts of the UI without rebuilding the whole widget tree.
-              // You pass child separately so Flutter doesn’t rebuild widgets that don’t change.
-              return Transform.translate(
-                //Moves a widget without changing layout.
-                offset: Offset(0, _moveAnimation.value),
-                child: child,
-              );
-            },
-            child: Icon(
-              Icons.check_box_outlined,
-              size: 90,
-              color: Theme.of(context).colorScheme.primaryContainer,
-            ),
-          ),
-          const SizedBox(height: 24),
-
-          Text(
-            "TaskFlow",
-            style: TextStyle(
-              fontSize: 36,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            ),
-          ),
-          const SizedBox(height: 12),
-
-          Text(
-            "Organize your life, one task at a time.",
-            style: TextStyle(fontSize: 18, color: Colors.white70),
-            textAlign: TextAlign.center,
-          ),
-
-          const Spacer(flex: 3),
-
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              _buildBottomItem(Icons.calendar_today, "Plan", Colors.redAccent),
-              _buildBottomItem(Icons.check_box, "Track", Colors.greenAccent),
-              _buildBottomItem(Icons.self_improvement, "Focus", Colors.amber),
-              _buildBottomItem(Icons.pie_chart, "Achieve", Colors.blueAccent),
+    return Scaffold(
+      appBar: AppBar(systemOverlayStyle: SystemUiOverlayStyle.light),
+      body: Container(
+        width: double.infinity,
+        height: double.infinity,
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              Color.fromRGBO(30, 0, 50, 1),
+              Color.fromRGBO(15, 0, 40, 1),
+              Color.fromRGBO(2, 43, 58, 1),
             ],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
           ),
+        ),
 
-          const SizedBox(height: 40),
-        ],
+        child: Column(
+          children: [
+            const Spacer(flex: 3),
+            AnimatedBuilder(
+              animation: _moveAnimation,
+              builder: (context, child) {
+                // Efficient way to animate parts of the UI without rebuilding the whole widget tree.
+                // You pass child separately so Flutter doesn’t rebuild widgets that don’t change.
+                return Transform.translate(
+                  //Moves a widget without changing layout.
+                  offset: Offset(0, _moveAnimation.value),
+                  child: child,
+                );
+              },
+              child: Icon(
+                Icons.check_box_outlined,
+                size: 90,
+                color: Theme.of(context).colorScheme.primaryContainer,
+              ),
+            ),
+            const SizedBox(height: 24),
+
+            Text(
+              "TaskFlow",
+              style: TextStyle(
+                fontSize: 36,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+            ),
+            const SizedBox(height: 12),
+
+            Text(
+              "Organize your life, one task at a time.",
+              style: TextStyle(fontSize: 18, color: Colors.white70),
+              textAlign: TextAlign.center,
+            ),
+
+            const Spacer(flex: 3),
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                _buildBottomItem(
+                  Icons.calendar_today,
+                  "Plan",
+                  Colors.redAccent,
+                ),
+                _buildBottomItem(Icons.check_box, "Track", Colors.greenAccent),
+                _buildBottomItem(Icons.self_improvement, "Focus", Colors.amber),
+                _buildBottomItem(Icons.pie_chart, "Achieve", Colors.blueAccent),
+              ],
+            ),
+
+            const SizedBox(height: 40),
+          ],
+        ),
       ),
     );
   }
