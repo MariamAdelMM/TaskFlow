@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:task_flow/widgets/categories.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -23,6 +24,12 @@ class _HomeScreenState extends State<HomeScreen> {
       name = prefs.getString('name') ?? 'User';
     });
   }
+
+  final List<Map<String, dynamic>> items = [
+    {'icon': Icons.task_alt, 'label': 'Completed', "number": 2},
+    {'icon': Icons.timer, 'label': 'Overdue', "number": 1222},
+    {'icon': Icons.analytics, 'label': 'Upcoming', "number": 12},
+  ];
 
   @override
   void initState() {
@@ -72,33 +79,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
               const SizedBox(height: 16),
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //   children: [
-              //     Container(width: 100, height: 100, color: Colors.amber),
-              //     Container(width: 100, height: 100, color: Colors.amber),
-              //     Container(width: 100, height: 100, color: Colors.amber),
-              //   ],
-              // ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: List.generate(
-                  3,
-                  (index) => Container(
-                    width: 100,
-                    height: 150,
-                    decoration: BoxDecoration(
-                      color: Color.fromRGBO(31, 22, 43, 0.5),
-                      borderRadius: BorderRadius.circular(16),
-                      border: Border.all(
-                        color: Theme.of(
-                          context,
-                        ).colorScheme.onPrimary.withOpacity(0.5),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+              CategoriesItems(),
             ],
           ),
         ),

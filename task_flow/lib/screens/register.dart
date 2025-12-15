@@ -162,8 +162,25 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             _passwordController.text,
                           );
                           ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('User Registered successfully'),
+                            SnackBar(
+                              content: Text(
+                                'User Registered successfully',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                  color: Theme.of(
+                                    context,
+                                  ).colorScheme.onSecondaryContainer,
+                                ),
+                              ),
+                              backgroundColor: Theme.of(
+                                context,
+                              ).colorScheme.primaryContainer,
+                              margin: const EdgeInsets.all(16),
+                              behavior: SnackBarBehavior.floating,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
                             ),
                           );
 
@@ -175,11 +192,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           );
                         }
                       },
-                      child: const Text(
+                      child: Text(
                         "Register",
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
+                          color: Theme.of(
+                            context,
+                          ).colorScheme.onSecondaryContainer,
                         ),
                       ),
                     ),
