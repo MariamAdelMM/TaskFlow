@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:task_flow/data/data.dart';
 import 'package:task_flow/widgets/categories.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -79,7 +80,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
               const SizedBox(height: 16),
-              CategoriesItems(),
+              CategoriesItems(tasks: dummyTasks),
             ],
           ),
         ),
