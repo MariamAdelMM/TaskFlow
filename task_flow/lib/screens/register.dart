@@ -72,8 +72,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                     ),
                     validator: (value) {
-                      if (value == null || value.isEmpty)
+                      if (value == null || value.isEmpty) {
                         return "Full Name is required";
+                      }
                       return null;
                     },
                   ),
@@ -93,8 +94,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                     ),
                     validator: (value) {
-                      if (value == null || value.isEmpty)
+                      if (value == null || value.isEmpty) {
                         return "Email is required";
+                      }
                       if (!value.contains("@")) return "Enter a valid email";
                       return null;
                     },
@@ -113,10 +115,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                     ),
                     validator: (value) {
-                      if (value == null || value.isEmpty)
+                      if (value == null || value.isEmpty) {
                         return "Password is required";
-                      if (value.length < 6)
+                      }
+                      if (value.length < 6) {
                         return "Password must be at least 6 characters";
+                      }
                       return null;
                     },
                   ),
@@ -135,8 +139,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                     ),
                     validator: (value) {
-                      if (value == null || value.isEmpty)
+                      if (value == null || value.isEmpty) {
                         return "Confirm Password is required";
+                      }
                       if (value != _passwordController.text) {
                         return "Passwords don't match";
                       }

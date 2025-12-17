@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:task_flow/data/data.dart';
-import 'package:task_flow/screens/tasks.dart';
+import 'package:task_flow/screens/add_task.dart';
 import 'package:task_flow/widgets/categories.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -30,7 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void _onAddPressed() {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (_) => const TasksScreen()),
+      MaterialPageRoute(builder: (_) => const AddTasksScreen()),
     );
   }
 
