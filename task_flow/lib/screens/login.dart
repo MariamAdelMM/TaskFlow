@@ -157,7 +157,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             // Navigator.pushReplacementNamed(context, '/home');
                             Navigator.pushNamedAndRemoveUntil(
                               context,
-                              '/home',
+                              '/tabs',
                               (route) => false,
                             );
                             ScaffoldMessenger.of(context).showSnackBar(
@@ -167,6 +167,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                   style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.bold,
+                                    color: Theme.of(
+                                      context,
+                                    ).colorScheme.onSecondaryContainer,
                                   ),
                                 ),
                                 backgroundColor: Theme.of(
@@ -225,7 +228,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            'Dont have an account? ',
+                            "Don't have an account?",
                             style: TextStyle(color: Colors.grey, fontSize: 14),
                           ),
                           GestureDetector(

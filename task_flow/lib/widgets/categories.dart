@@ -65,13 +65,12 @@ class CategoriesItems extends StatelessWidget {
               Container(
                 width: 40,
                 height: 40,
-                child: Icon(item['icon'], color: item['color'], size: 26),
                 decoration: BoxDecoration(
                   color: item['color'].withOpacity(0.1),
                   borderRadius: BorderRadius.circular(24),
                 ),
+                child: Icon(item['icon'], color: item['color'], size: 26),
               ),
-
               const SizedBox(height: 12),
               Text(
                 item['label'],

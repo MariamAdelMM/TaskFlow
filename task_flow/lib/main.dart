@@ -4,6 +4,7 @@ import 'package:task_flow/screens/home.dart';
 import 'package:task_flow/screens/login.dart';
 import 'package:task_flow/screens/register.dart';
 import 'package:task_flow/screens/splash.dart';
+import 'package:task_flow/widgets/tabs.dart';
 
 var kColorScheme = ColorScheme.fromSeed(
   seedColor: const Color.fromRGBO(30, 0, 50, 1),
@@ -40,6 +41,7 @@ void main() {
         '/home': (context) => const HomeScreen(),
         '/login': (context) => const LoginScreen(),
         '/register': (context) => const RegisterScreen(),
+        '/tabs': (context) => const Tabs(),
       },
     ),
   );

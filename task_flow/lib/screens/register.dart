@@ -187,7 +187,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           // Navigator.pushReplacementNamed(context, '/home');//Removes ALL previous routes AND Makes Home the root screen
                           Navigator.pushNamedAndRemoveUntil(
                             context,
-                            '/home',
+                            '/tabs',
                             (route) => false,
                           );
                         }
