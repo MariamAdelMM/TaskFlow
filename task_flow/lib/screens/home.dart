@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:task_flow/data/data.dart';
+import 'package:task_flow/screens/tasks.dart';
 import 'package:task_flow/widgets/categories.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -24,6 +25,13 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {
       name = prefs.getString('name') ?? 'User';
     });
+  }
+
+  void _onAddPressed() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (_) => const TasksScreen()),
+    );
   }
 
   final List<Map<String, dynamic>> items = [
@@ -85,6 +93,15 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _onAddPressed,
+        elevation: 6,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(32)),
+        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+        child: const Icon(Icons.add, size: 32),
+      ),
+
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 }
