@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:task_flow/models/tasks.dart';
 
 class AddTasksScreen extends StatefulWidget {
   const AddTasksScreen({super.key});
@@ -16,6 +17,9 @@ class _AddTasksScreenState extends State<AddTasksScreen> {
   // final TextEditingController _timeController = TextEditingController();
   // final TextEditingController _categoryController = TextEditingController();
   // final TextEditingController _priorityController = TextEditingController();
+
+  TaskPriority selected = TaskPriority.low;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -207,7 +211,26 @@ class _AddTasksScreenState extends State<AddTasksScreen> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-
+                  Row(
+                    children: TaskPriority.values.map((priority) {
+                      return ChoiceChip(
+                        label: Text(
+                          priority.name,
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            color: Theme.of(
+                              context,
+                            ).colorScheme.onSecondaryContainer,
+                          ),
+                        ),
+                        selected: selected == priority,
+                        onSelected: (i) {
+                          setState(() => selected = priority);
+                        },
+                      );
+                    }).toList(),
+                  ),
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
