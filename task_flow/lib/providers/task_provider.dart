@@ -15,9 +15,9 @@ class TaskNotifier extends StateNotifier<List<Task>> {
 
   // 3. Update a task at a given index
   void updateTask(int index, Task updatedTask) {
-    final newState = [...state];
-    newState[index] = updatedTask;
-    state = newState;
+    final newState = [...state]; //creates a copy of the current list.
+    newState[index] = updatedTask; //replaces the old task with the updated one.
+    state = newState; //updates Riverpod state, which triggers UI rebuilds.
   }
 
   // 4. Delete a task at a given index
@@ -30,8 +30,10 @@ class TaskNotifier extends StateNotifier<List<Task>> {
   // 5. Toggle completion status
   void toggleComplete(int index) {
     final newState = [...state];
+    //creates a new Task object based on the old one, but with isCompleted toggled.
     newState[index] = newState[index].copyWith(
-      isCompleted: !newState[index].isCompleted,
+      isCompleted: !newState[index]
+          .isCompleted, //! the opposite of what i currently have
     );
     state = newState;
   }
@@ -44,5 +46,6 @@ class TaskNotifier extends StateNotifier<List<Task>> {
 
 // 7. Create a Riverpod provider
 final taskProvider = StateNotifierProvider<TaskNotifier, List<Task>>((ref) {
+  //taskProvider ===> provider you will use in your widgets.
   return TaskNotifier();
 });

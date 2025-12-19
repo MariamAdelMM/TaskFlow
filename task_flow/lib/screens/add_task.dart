@@ -1,22 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:task_flow/models/tasks.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import '../providers/task_provider.dart';
 
-class AddTasksScreen extends StatefulWidget {
+class AddTasksScreen extends ConsumerStatefulWidget {
   const AddTasksScreen({super.key});
 
   @override
-  State<AddTasksScreen> createState() => _AddTasksScreenState();
+  ConsumerState<AddTasksScreen> createState() => _AddTasksScreenState();
 }
 
-class _AddTasksScreenState extends State<AddTasksScreen> {
+class _AddTasksScreenState extends ConsumerState<AddTasksScreen> {
+  //after converting to consumerStatefull state ref is now available in _AddTasksScreenState, which lets you access your provider.
+  final _formKey = GlobalKey<FormState>();
+  final TextEditingController _titleController = TextEditingController();
+  final TextEditingController _descriptionController = TextEditingController();
   TaskPriority selected = TaskPriority.low;
   TaskCategory selectedCategory = TaskCategory.work;
-  final TextEditingController _titleController = TextEditingController();
-
-  final TextEditingController _descriptionController = TextEditingController();
-  final _formKey = GlobalKey<FormState>();
   DateTime _selectedDate = DateTime.now();
   TimeOfDay _selectedTime = TimeOfDay.now();
 
@@ -44,23 +45,6 @@ class _AddTasksScreenState extends State<AddTasksScreen> {
     final String minutes = minute.toString().padLeft(2, '0');
 
     return "$hour12:$minutes $period";
-  }
-
-  Future<void> saveTask(
-    String title,
-    String description,
-    DateTime date,
-    TimeOfDay time,
-    TaskCategory category,
-    TaskPriority priority,
-  ) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('title', title);
-    await prefs.setString('description', description);
-    await prefs.setString('date', _formatDate(date));
-    await prefs.setString('time', _formatTime(time));
-    await prefs.setString('category', category.name);
-    await prefs.setString('priority', priority.name);
   }
 
   @override
@@ -387,14 +371,17 @@ class _AddTasksScreenState extends State<AddTasksScreen> {
               ),
               onPressed: () async {
                 if (_formKey.currentState!.validate()) {
-                  await saveTask(
-                    _titleController.text,
-                    _descriptionController.text,
-                    _selectedDate,
-                    _selectedTime,
-                    selectedCategory,
-                    selected,
+                  final newTask = Task(
+                    title: _titleController.text,
+                    description: _descriptionController.text,
+                    date: _selectedDate,
+                    time: _selectedTime,
+                    category: selectedCategory,
+                    priority: selected,
+                    isCompleted: false,
                   );
+                  ref.read(taskProvider.notifier).addTask(newTask);
+
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       content: Text(
