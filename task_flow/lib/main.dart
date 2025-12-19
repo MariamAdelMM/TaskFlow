@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:task_flow/screens/home.dart';
 import 'package:task_flow/screens/login.dart';
 import 'package:task_flow/screens/register.dart';
@@ -10,8 +11,14 @@ var kColorScheme = ColorScheme.fromSeed(
 );
 
 void main() {
-  runApp(
-    MaterialApp(
+  runApp(const ProviderScope(child: MyApp()));
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
       theme: ThemeData().copyWith(
         useMaterial3: true,
         colorScheme: kColorScheme,
@@ -42,6 +49,6 @@ void main() {
         '/register': (context) => const RegisterScreen(),
         '/tabs': (context) => const Tabs(),
       },
-    ),
-  );
+    );
+  }
 }

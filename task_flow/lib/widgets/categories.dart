@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:task_flow/models/tasks.dart';
 
+//int getCompletedCount(List<Task> tasks) =>
+// tasks.where((t) => t.status == TaskStatus.completed).length;
 // int total = getCompletedCount(tasks);
 // Text(total.toString());
 // void → function RETURNS NOTHING
@@ -9,19 +10,9 @@ import 'package:task_flow/models/tasks.dart';
 //this is void  onPressed: () {
 // print('Button clicked');
 // },
-int getCompletedCount(List<Task> tasks) =>
-    tasks.where((t) => t.status == TaskStatus.completed).length;
-
-int getOverdueCount(List<Task> tasks) =>
-    tasks.where((t) => t.status == TaskStatus.overdue).length;
-
-int getUpcomingCount(List<Task> tasks) =>
-    tasks.where((t) => t.status == TaskStatus.upcoming).length;
 
 class CategoriesItems extends StatelessWidget {
-  const CategoriesItems({super.key, required this.tasks});
-
-  final List<Task> tasks;
+  const CategoriesItems({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -30,19 +21,19 @@ class CategoriesItems extends StatelessWidget {
         'color': const Color(0xFF4ADB7E),
         'icon': Icons.task_alt,
         'label': 'Completed',
-        'number': getCompletedCount(tasks),
+        'number': 0,
       },
       {
         'color': const Color(0xFFf97171),
         'icon': Icons.timer,
         'label': 'Overdue',
-        'number': getOverdueCount(tasks),
+        'number': 0,
       },
       {
         'color': const Color(0xFF5389d5),
         'icon': Icons.analytics,
         'label': 'Upcoming',
-        'number': getUpcomingCount(tasks),
+        'number': 0,
       },
     ];
 
