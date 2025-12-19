@@ -34,9 +34,7 @@ class _AddTasksScreenState extends State<AddTasksScreen> {
   String _formatTime(TimeOfDay time) {
     final int hour = time.hour;
     final int minute = time.minute;
-
     final String period = hour >= 12 ? "PM" : "AM";
-
     final int hour12 = hour == 0
         ? 12
         : hour > 12
@@ -59,8 +57,8 @@ class _AddTasksScreenState extends State<AddTasksScreen> {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('title', title);
     await prefs.setString('description', description);
-    await prefs.setString('date', date.toString());
-    await prefs.setString('time', time.toString());
+    await prefs.setString('date', _formatDate(date));
+    await prefs.setString('time', _formatTime(time));
     await prefs.setString('category', category.name);
     await prefs.setString('priority', priority.name);
   }
