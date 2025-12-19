@@ -88,13 +88,14 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
               const SizedBox(height: 16),
-              Column(
-                children: [
-                  CategoriesItems(),
-                  const SizedBox(height: 16),
-                  TaskList(),
-                  const SizedBox(height: 16),
-                ],
+              Expanded(
+                child: Column(
+                  children: [
+                    CategoriesItems(),
+                    const SizedBox(height: 16),
+                    Expanded(child: TaskList()),
+                  ],
+                ),
               ),
             ],
           ),
