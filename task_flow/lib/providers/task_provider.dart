@@ -3,11 +3,14 @@ import 'package:task_flow/models/tasks.dart';
 
 // 1. Create a StateNotifier that manages a list of tasks
 class TaskNotifier extends StateNotifier<List<Task>> {
-  TaskNotifier() : super([]);
+  //means it manages a list of Task objects
+  TaskNotifier() : super([]); //initializes the state as an empty list.
+  //StateNotifier is a controller for your data. Whenever state changes, widgets that watch this provider automatically rebuild.
 
   // 2. Add a new task
   void addTask(Task task) {
-    state = [...state, task]; // add new task to the list
+    state = [...state, task];
+    //creates a new list containing all existing tasks plus the new one. //creating a new list ensures the UI updates.
   }
 
   // 3. Update a task at a given index
