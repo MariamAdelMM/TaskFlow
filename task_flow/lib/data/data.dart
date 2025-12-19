@@ -7,6 +7,7 @@ final List<Task> dummyTasks = [
     date: DateTime.now().subtract(const Duration(days: 1)),
     status: TaskStatus.completed,
     priority: TaskPriority.high,
+    category: TaskCategory.home,
   ),
   Task(
     title: 'Fix bugs',
@@ -14,6 +15,7 @@ final List<Task> dummyTasks = [
     date: DateTime.now().subtract(const Duration(days: 2)),
     status: TaskStatus.overdue,
     priority: TaskPriority.medium,
+    category: TaskCategory.work,
   ),
   Task(
     title: 'Prepare report',
@@ -21,6 +23,7 @@ final List<Task> dummyTasks = [
     date: DateTime.now().add(const Duration(days: 3)),
     status: TaskStatus.upcoming,
     priority: TaskPriority.low,
+    category: TaskCategory.study,
   ),
   Task(
     title: 'API integration',
@@ -28,5 +31,6 @@ final List<Task> dummyTasks = [
     date: DateTime.now(),
     status: TaskStatus.completed,
     priority: TaskPriority.high,
+    category: TaskCategory.home,
   ),
 ];

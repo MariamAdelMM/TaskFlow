@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:task_flow/models/tasks.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AddTasksScreen extends StatefulWidget {
   const AddTasksScreen({super.key});
@@ -10,15 +11,59 @@ class AddTasksScreen extends StatefulWidget {
 }
 
 class _AddTasksScreenState extends State<AddTasksScreen> {
-  final _formKey = GlobalKey<FormState>();
-  final TextEditingController _titleController = TextEditingController();
-  final TextEditingController _descriptionController = TextEditingController();
-  // final TextEditingController _dateController = TextEditingController();
-  // final TextEditingController _timeController = TextEditingController();
-  // final TextEditingController _categoryController = TextEditingController();
-  // final TextEditingController _priorityController = TextEditingController();
-
   TaskPriority selected = TaskPriority.low;
+  TaskCategory selectedCategory = TaskCategory.work;
+  final TextEditingController _titleController = TextEditingController();
+
+  final TextEditingController _descriptionController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+  DateTime _selectedDate = DateTime.now();
+  TimeOfDay _selectedTime = TimeOfDay.now();
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedDate = DateTime.now();
+    _selectedTime = TimeOfDay.now();
+  }
+
+  String _formatDate(DateTime date) {
+    return "${date.day}/${date.month}/${date.year}";
+  }
+
+  String _formatTime(TimeOfDay time) {
+    final int hour = time.hour;
+    final int minute = time.minute;
+
+    final String period = hour >= 12 ? "PM" : "AM";
+
+    final int hour12 = hour == 0
+        ? 12
+        : hour > 12
+        ? hour - 12
+        : hour;
+
+    final String minutes = minute.toString().padLeft(2, '0');
+
+    return "$hour12:$minutes $period";
+  }
+
+  Future<void> saveTask(
+    String title,
+    String description,
+    DateTime date,
+    TimeOfDay time,
+    TaskCategory category,
+    TaskPriority priority,
+  ) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('title', title);
+    await prefs.setString('description', description);
+    await prefs.setString('date', date.toString());
+    await prefs.setString('time', time.toString());
+    await prefs.setString('category', category.name);
+    await prefs.setString('priority', priority.name);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,15 +83,24 @@ class _AddTasksScreenState extends State<AddTasksScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  Text(
+                    'Task Title',
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Theme.of(context).colorScheme.onPrimary,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                   const SizedBox(height: 8),
+
                   TextFormField(
                     style: const TextStyle(color: Colors.white, fontSize: 16),
                     controller: _titleController,
                     keyboardType: TextInputType.text,
                     decoration: InputDecoration(
-                      labelText: "Task Title",
+                      labelText: "Title",
                       labelStyle: TextStyle(
-                        fontSize: 16,
+                        fontSize: 12,
                         color: Theme.of(context).colorScheme.primaryContainer,
                         fontWeight: FontWeight.bold,
                       ),
@@ -61,7 +115,16 @@ class _AddTasksScreenState extends State<AddTasksScreen> {
                       return null;
                     },
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 10),
+                  Text(
+                    'Description',
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Theme.of(context).colorScheme.onPrimary,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
                   TextFormField(
                     style: const TextStyle(color: Colors.white, fontSize: 16),
                     controller: _descriptionController,
@@ -71,7 +134,7 @@ class _AddTasksScreenState extends State<AddTasksScreen> {
                       labelText: "Description",
                       alignLabelWithHint: true,
                       labelStyle: TextStyle(
-                        fontSize: 16,
+                        fontSize: 12,
                         color: Theme.of(context).colorScheme.primaryContainer,
                         fontWeight: FontWeight.bold,
                       ),
@@ -86,7 +149,7 @@ class _AddTasksScreenState extends State<AddTasksScreen> {
                       return null;
                     },
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: 10),
                   Row(
                     children: [
                       Expanded(
@@ -97,42 +160,59 @@ class _AddTasksScreenState extends State<AddTasksScreen> {
                               'Due date',
                               style: TextStyle(
                                 fontSize: 16,
-                                color: Theme.of(
-                                  context,
-                                ).colorScheme.primaryContainer,
+                                color: Theme.of(context).colorScheme.onPrimary,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
                             const SizedBox(height: 8),
-                            InkWell(
-                              onTap: () async {
-                                DateTime? pickedDate = await showDatePicker(
-                                  context: context,
-                                  initialDate: DateTime.now(),
-                                  firstDate: DateTime(2000),
-                                  lastDate: DateTime(2100),
-                                );
-                                if (pickedDate != null) {
-                                  print(pickedDate);
-                                }
-                              },
-                              child: Container(
-                                height: 50,
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 12,
-                                ),
-                                alignment: Alignment.centerLeft,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(12),
-                                  color: Theme.of(
-                                    context,
-                                  ).colorScheme.primaryContainer,
-                                ),
-                                child: Icon(
-                                  Icons.calendar_today,
-                                  color: Theme.of(
-                                    context,
-                                  ).colorScheme.onSecondaryContainer,
+                            Container(
+                              height: 50,
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 12,
+                              ),
+                              alignment: Alignment.centerLeft,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(12),
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.primaryContainer,
+                              ),
+
+                              child: InkWell(
+                                //prssable
+                                onTap: () async {
+                                  DateTime? pickedDate = await showDatePicker(
+                                    //The ? means nullable. this variable can be either a DateTime OR null.
+                                    context: context,
+                                    initialDate: _selectedDate,
+                                    firstDate: DateTime(2020),
+                                    lastDate: DateTime(2030),
+                                  );
+                                  if (pickedDate != null) {
+                                    setState(() => _selectedDate = pickedDate);
+                                  }
+                                },
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Icon(
+                                      Icons.calendar_today,
+                                      color: Theme.of(
+                                        context,
+                                      ).colorScheme.onSecondaryContainer,
+                                    ),
+                                    const SizedBox(width: 4),
+
+                                    Text(
+                                      _formatDate(_selectedDate),
+                                      style: TextStyle(
+                                        color: Theme.of(
+                                          context,
+                                        ).colorScheme.onSecondaryContainer,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ),
@@ -141,7 +221,6 @@ class _AddTasksScreenState extends State<AddTasksScreen> {
                       ),
 
                       const SizedBox(width: 16),
-
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -150,9 +229,7 @@ class _AddTasksScreenState extends State<AddTasksScreen> {
                               'Time',
                               style: TextStyle(
                                 fontSize: 16,
-                                color: Theme.of(
-                                  context,
-                                ).colorScheme.primaryContainer,
+                                color: Theme.of(context).colorScheme.onPrimary,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -161,10 +238,12 @@ class _AddTasksScreenState extends State<AddTasksScreen> {
                               onTap: () async {
                                 TimeOfDay? pickedTime = await showTimePicker(
                                   context: context,
-                                  initialTime: TimeOfDay.now(),
+                                  initialTime: _selectedTime,
                                 );
                                 if (pickedTime != null) {
-                                  // print(pickedTime.format(context));
+                                  setState(() {
+                                    _selectedTime = pickedTime;
+                                  });
                                 }
                               },
                               child: Container(
@@ -179,11 +258,26 @@ class _AddTasksScreenState extends State<AddTasksScreen> {
                                     context,
                                   ).colorScheme.primaryContainer,
                                 ),
-                                child: Icon(
-                                  Icons.access_time,
-                                  color: Theme.of(
-                                    context,
-                                  ).colorScheme.onSecondaryContainer,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Icon(
+                                      Icons.access_time,
+                                      color: Theme.of(
+                                        context,
+                                      ).colorScheme.onSecondaryContainer,
+                                    ),
+                                    const SizedBox(width: 4),
+                                    Text(
+                                      _formatTime(_selectedTime),
+                                      style: TextStyle(
+                                        color: Theme.of(
+                                          context,
+                                        ).colorScheme.onSecondaryContainer,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ),
@@ -193,7 +287,7 @@ class _AddTasksScreenState extends State<AddTasksScreen> {
                     ],
                   ),
 
-                  const SizedBox(height: 8),
+                  const SizedBox(height: 10),
                   Text(
                     'Category',
                     style: TextStyle(
@@ -202,7 +296,37 @@ class _AddTasksScreenState extends State<AddTasksScreen> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: 4),
+
+                  Row(
+                    children: TaskCategory.values.map((category) {
+                      return Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 4),
+                          child: ChoiceChip(
+                            label: Center(
+                              child: Text(
+                                category.name[0].toUpperCase() +
+                                    category.name.substring(1),
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                  color: Theme.of(
+                                    context,
+                                  ).colorScheme.onSecondaryContainer,
+                                ),
+                              ),
+                            ),
+                            selected: selectedCategory == category,
+                            onSelected: (_) {
+                              setState(() => selectedCategory = category);
+                            },
+                          ),
+                        ),
+                      );
+                    }).toList(),
+                  ),
+                  const SizedBox(height: 10),
                   Text(
                     'Priority',
                     style: TextStyle(
@@ -211,51 +335,100 @@ class _AddTasksScreenState extends State<AddTasksScreen> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
+                  const SizedBox(height: 4),
+
                   Row(
                     children: TaskPriority.values.map((priority) {
-                      return ChoiceChip(
-                        label: Text(
-                          priority.name,
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                            color: Theme.of(
-                              context,
-                            ).colorScheme.onSecondaryContainer,
+                      //creates 3 chips
+                      return Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 4),
+                          child: ChoiceChip(
+                            label: Center(
+                              child: Text(
+                                priority.name[0].toUpperCase() +
+                                    priority.name.substring(1),
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                  color: Theme.of(
+                                    context,
+                                  ).colorScheme.onSecondaryContainer,
+                                ),
+                              ),
+                            ),
+                            selected:
+                                selected ==
+                                priority, //decides which chip is active
+                            onSelected: (i) {
+                              setState(() => selected = priority);
+                            },
                           ),
                         ),
-                        selected: selected == priority,
-                        onSelected: (i) {
-                          setState(() => selected = priority);
-                        },
                       );
                     }).toList(),
                   ),
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(vertical: 12),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                      ),
-                      onPressed: () async {
-                        if (_formKey.currentState!.validate()) {}
-                      },
-                      child: Text(
-                        "Add Task",
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+      bottomNavigationBar: SafeArea(
+        //A bottom navigation bar to display at the bottom of the scaffold.
+        child: Padding(
+          padding: const EdgeInsets.all(24),
+          child: SizedBox(
+            width: double.infinity,
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                padding: const EdgeInsets.symmetric(vertical: 14),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+              ),
+              onPressed: () async {
+                if (_formKey.currentState!.validate()) {
+                  await saveTask(
+                    _titleController.text,
+                    _descriptionController.text,
+                    _selectedDate,
+                    _selectedTime,
+                    selectedCategory,
+                    selected,
+                  );
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                        'Task Added successfully',
                         style: TextStyle(
-                          fontSize: 18,
+                          fontSize: 14,
                           fontWeight: FontWeight.bold,
                           color: Theme.of(
                             context,
                           ).colorScheme.onSecondaryContainer,
                         ),
                       ),
+                      backgroundColor: Theme.of(
+                        context,
+                      ).colorScheme.primaryContainer,
+                      margin: const EdgeInsets.all(16),
+                      behavior: SnackBarBehavior.floating,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
                     ),
-                  ),
-                ],
+                  );
+                  Navigator.pop(context, '/tabs');
+                }
+              },
+              child: Text(
+                "Add Task",
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Theme.of(context).colorScheme.onSecondaryContainer,
+                ),
               ),
             ),
           ),

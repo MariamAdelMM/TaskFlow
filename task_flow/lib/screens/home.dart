@@ -14,6 +14,31 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   String name = '';
+  String taskTitle = '';
+  String taskDescription = '';
+  String taskDate = '';
+  String taskTime = '';
+  String taskCategory = '';
+  String taskPriority = '';
+
+  Future<void> _loadTask() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    setState(() {
+      taskTitle = prefs.getString('title') ?? '';
+      taskDescription = prefs.getString('description') ?? '';
+      taskDate = prefs.getString('date') != null
+          ? DateTime.parse(
+              prefs.getString('date')!,
+            ).toLocal().toString().split(' ')[0]
+          : '';
+      taskTime = prefs.getString('time') != null
+          ? prefs.getString('time')!
+          : '';
+      taskCategory = prefs.getString('category') ?? '';
+      taskPriority = prefs.getString('priority') ?? '';
+    });
+  }
 
   String capitalize(String value) {
     if (value.isEmpty) return value;
@@ -43,7 +68,8 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    _loadName(); // load name when screen initializes
+    _loadName(); //// load name when screen initializes
+    _loadTask(); // load the task when home screen opens
   }
 
   @override
@@ -88,7 +114,54 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
               const SizedBox(height: 16),
-              CategoriesItems(tasks: dummyTasks),
+              Column(
+                children: [
+                  CategoriesItems(tasks: dummyTasks),
+                  const SizedBox(height: 16),
+                  if (taskTitle.isNotEmpty)
+                    Card(
+                      color: Theme.of(context).colorScheme.primaryContainer,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Title: $taskTitle',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Text(
+                              'Description: $taskDescription',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            Text(
+                              'Date: $taskDate',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            Text(
+                              'Time: $taskTime',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            Text(
+                              'Category: $taskCategory',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            Text(
+                              'Priority: $taskPriority',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                ],
+              ),
             ],
           ),
         ),
