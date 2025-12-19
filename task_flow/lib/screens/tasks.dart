@@ -11,12 +11,15 @@ class _TasksScreenState extends State<TasksScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(systemOverlayStyle: SystemUiOverlayStyle.light),
+      appBar: AppBar(
+        systemOverlayStyle: SystemUiOverlayStyle.light,
+        title: Text('Tasks'),
+      ),
       backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(24.0),
-          child: Text('Tasks'),
+          // child: Text('Tasks'),
         ),
       ),
     );

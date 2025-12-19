@@ -49,3 +49,30 @@ final taskProvider = StateNotifierProvider<TaskNotifier, List<Task>>((ref) {
   //taskProvider ===> provider you will use in your widgets.
   return TaskNotifier();
 });
+
+//NOTES
+////////////////////////////
+
+// ref.read(provider)
+// Purpose: Read the current value of a provider once.
+// Does not rebuild the widget if the provider changes.
+// Usually used when you want to call a method on a notifier or get a value once, e.g., in a button’s onPressed.
+//onPressed: () {
+//   ref.read(taskProvider.notifier).addTask(newTask);
+// }
+//Here, we don’t need to rebuild the widget—just want to tell the notifier to add a task.
+/////////////////////////
+//ref.watch(provider)
+//Purpose: Subscribe to a provider and rebuild the widget automatically whenever the provider changes.
+// Use this inside build when you want your UI to update with provider state.
+/////////////////////////
+//ref.listen(provider, (previous, next) => ...)
+// Purpose: React to changes in a provider without rebuilding the widget.
+// Useful for side effects, like showing a snackbar, navigation, logging, or saving data.
+//ref.listen(taskProvider, (previous, next) {
+//   if (next.length > previous.length) {
+//     ScaffoldMessenger.of(context).showSnackBar(
+//       SnackBar(content: Text('New task added!')),
+//     );
+//   }
+// });

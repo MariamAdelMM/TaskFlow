@@ -13,6 +13,8 @@ class AddTasksScreen extends ConsumerStatefulWidget {
 
 class _AddTasksScreenState extends ConsumerState<AddTasksScreen> {
   //after converting to consumerStatefull state ref is now available in _AddTasksScreenState, which lets you access your provider.
+  //By default, ref.watch(taskProvider) or ref.read(taskProvider) gives you the current state (the List<Task>).
+  // But if you want to call methods that modify the state (like adding a task), you need the .notifier
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
