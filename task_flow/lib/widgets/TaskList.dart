@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:task_flow/models/tasks.dart';
 import '../providers/task_provider.dart';
 
 class TaskList extends ConsumerWidget {
@@ -23,13 +24,12 @@ class TaskList extends ConsumerWidget {
     return SizedBox(
       width: double.infinity,
       child: ListView.builder(
-        padding: const EdgeInsets.symmetric(vertical: 8),
-        itemCount: tasks.length > 3 ? 3 : tasks.length,
+        itemCount: tasks.length > 2 ? 2 : tasks.length,
         itemBuilder: (context, index) {
           final task = tasks[index];
 
           return Padding(
-            padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
+            padding: const EdgeInsets.symmetric(vertical: 2),
             child: Card(
               color: const Color.fromRGBO(31, 22, 43, 0.5),
               shape: RoundedRectangleBorder(
@@ -62,10 +62,14 @@ class TaskList extends ConsumerWidget {
                         children: [
                           Text(
                             task.title,
-                            style: const TextStyle(
+                            style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
                               fontSize: 16,
+                              decoration: task.isCompleted
+                                  ? TextDecoration.lineThrough
+                                  : TextDecoration.none,
+                              decorationColor: Colors.white,
                             ),
                           ),
                           Text(
@@ -73,7 +77,7 @@ class TaskList extends ConsumerWidget {
                             style: const TextStyle(color: Colors.white),
                           ),
                           Text(
-                            'Category: ${task.category.name[0].toUpperCase()}${task.category.name.substring(1)}',
+                            'Category: ${task.category.label}',
                             style: const TextStyle(color: Colors.white),
                           ),
                         ],

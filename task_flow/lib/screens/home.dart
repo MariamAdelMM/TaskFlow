@@ -87,12 +87,46 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ],
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 10),
               Expanded(
                 child: Column(
+                  //crossAxisAlignment: CrossAxisAlignment.start → aligns children to the start of the horizontal axis (left in LTR layout).
+                  // mainAxisAlignment: MainAxisAlignment.start → keeps children at the top vertically.
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    Text(
+                      'Tasks Status',
+                      style: const TextStyle(
+                        fontSize: 24,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+
                     CategoriesItems(),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: 10),
+
+                    Text(
+                      "Today's Tasks",
+                      style: const TextStyle(
+                        fontSize: 24,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+
+                    Text(
+                      'My Tasks',
+                      style: const TextStyle(
+                        fontSize: 24,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+
                     Expanded(child: TaskList()),
                   ],
                 ),

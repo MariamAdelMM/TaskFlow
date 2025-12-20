@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
 
 enum TaskPriority { low, medium, high }
 
@@ -29,10 +30,28 @@ extension TaskCategoryX on TaskCategory {
   String get label {
     return name[0].toUpperCase() + name.substring(1);
   }
+
+  Color get color {
+    switch (this) {
+      case TaskCategory.work:
+        return Colors.blue;
+      case TaskCategory.home:
+        return Colors.green;
+      case TaskCategory.shopping:
+        return Colors.orange;
+      case TaskCategory.study:
+        return Colors.purple;
+      case TaskCategory.personal:
+        return Colors.teal;
+      case TaskCategory.health:
+        return Colors.red;
+    }
+  }
 }
 
 class Task {
   //These are fields (properties) of the Task class
+  final String id; // <-- Unique ID
   final String title;
   final String description;
   final DateTime date;
@@ -41,8 +60,11 @@ class Task {
   final TaskPriority priority;
   bool isCompleted;
 
+  static const _uuid = Uuid();
+
   // This is the constructor. It runs when you create a new task.
   Task({
+    String? id,
     required this.title,
     required this.description,
     required this.date,
@@ -50,9 +72,10 @@ class Task {
     required this.category,
     required this.priority,
     this.isCompleted = false,
-  });
+  }) : id = id ?? _uuid.v4(); // generate a new UUID if not provided
 
   Task copyWith({
+    String? id,
     String? title,
     String? description,
     DateTime? date,
@@ -62,6 +85,7 @@ class Task {
     bool? isCompleted,
   }) {
     return Task(
+      id: id ?? this.id,
       title: title ?? this.title,
       description: description ?? this.description,
       date: date ?? this.date,
