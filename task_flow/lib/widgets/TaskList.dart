@@ -24,7 +24,7 @@ class TaskList extends ConsumerWidget {
       width: double.infinity,
       child: ListView.builder(
         padding: const EdgeInsets.symmetric(vertical: 8),
-        itemCount: tasks.length > 2 ? 2 : tasks.length,
+        itemCount: tasks.length > 3 ? 3 : tasks.length,
         itemBuilder: (context, index) {
           final task = tasks[index];
 

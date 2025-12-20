@@ -113,7 +113,7 @@ class _AddTasksScreenState extends ConsumerState<AddTasksScreen> {
                     style: const TextStyle(color: Colors.white, fontSize: 16),
                     controller: _descriptionController,
                     keyboardType: TextInputType.multiline,
-                    maxLines: 5,
+                    maxLines: 3,
                     decoration: InputDecoration(
                       labelText: "Description",
                       alignLabelWithHint: true,
@@ -169,7 +169,7 @@ class _AddTasksScreenState extends ConsumerState<AddTasksScreen> {
                                     //The ? means nullable. this variable can be either a DateTime OR null.
                                     context: context,
                                     initialDate: _selectedDate,
-                                    firstDate: DateTime(2020),
+                                    firstDate: DateTime.now(),
                                     lastDate: DateTime(2030),
                                   );
                                   if (pickedDate != null) {
@@ -282,34 +282,74 @@ class _AddTasksScreenState extends ConsumerState<AddTasksScreen> {
                   ),
                   const SizedBox(height: 4),
 
-                  Row(
-                    children: TaskCategory.values.map((category) {
-                      return Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 4),
-                          child: ChoiceChip(
-                            label: Center(
-                              child: Text(
-                                category.name[0].toUpperCase() +
-                                    category.name.substring(1),
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.bold,
-                                  color: Theme.of(
-                                    context,
-                                  ).colorScheme.onSecondaryContainer,
+                  Column(
+                    children: [
+                      Row(
+                        children: TaskCategory.values.take(3).map((category) {
+                          return Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 4,
+                              ),
+                              child: ChoiceChip(
+                                label: Center(
+                                  child: Text(
+                                    category.name[0].toUpperCase() +
+                                        category.name.substring(1),
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.bold,
+                                      color: Theme.of(
+                                        context,
+                                      ).colorScheme.onSecondaryContainer,
+                                    ),
+                                  ),
                                 ),
+                                selected: selectedCategory == category,
+                                onSelected: (_) {
+                                  setState(() => selectedCategory = category);
+                                },
                               ),
                             ),
-                            selected: selectedCategory == category,
-                            onSelected: (_) {
-                              setState(() => selectedCategory = category);
-                            },
-                          ),
-                        ),
-                      );
-                    }).toList(),
+                          );
+                        }).toList(),
+                      ),
+                      const SizedBox(height: 8),
+                      Row(
+                        children: TaskCategory.values.skip(3).take(3).map((
+                          category,
+                        ) {
+                          return Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 4,
+                              ),
+                              child: ChoiceChip(
+                                label: Center(
+                                  child: Text(
+                                    category.name[0].toUpperCase() +
+                                        category.name.substring(1),
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.bold,
+                                      color: Theme.of(
+                                        context,
+                                      ).colorScheme.onSecondaryContainer,
+                                    ),
+                                  ),
+                                ),
+                                selected: selectedCategory == category,
+                                onSelected: (_) {
+                                  setState(() => selectedCategory = category);
+                                },
+                              ),
+                            ),
+                          );
+                        }).toList(),
+                      ),
+                    ],
                   ),
+
                   const SizedBox(height: 10),
                   Text(
                     'Priority',
@@ -333,7 +373,7 @@ class _AddTasksScreenState extends ConsumerState<AddTasksScreen> {
                                 priority.name[0].toUpperCase() +
                                     priority.name.substring(1),
                                 style: TextStyle(
-                                  fontSize: 14,
+                                  fontSize: 12,
                                   fontWeight: FontWeight.bold,
                                   color: Theme.of(
                                     context,
