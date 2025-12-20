@@ -109,31 +109,65 @@ class TasksScreen extends ConsumerWidget {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
+                                  Row(
+                                    children: [
+                                      Container(
+                                        width: 20,
+                                        height: 20,
+                                        decoration: BoxDecoration(
+                                          color: task.priority.color
+                                              .withOpacity(0.5),
+                                          shape: BoxShape.circle,
+                                        ),
+                                        child: Center(
+                                          child: Icon(
+                                            task.priority.icon,
+                                            color: task.priority.color,
+                                            size: 14,
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(width: 8),
+                                      Text(
+                                        task.title,
+                                        style: TextStyle(
+                                          color: Theme.of(
+                                            context,
+                                          ).colorScheme.primaryContainer,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 16,
+                                          decoration: task.isCompleted
+                                              ? TextDecoration.lineThrough
+                                              : TextDecoration.none,
+                                          decorationColor: Colors.white,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+
                                   Text(
-                                    task.title,
+                                    'Due: ${task.date.day}/${task.date.month}/${task.date.year} at ${task.time.format(context)}',
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontWeight: FontWeight.bold,
-                                      fontSize: 16,
-                                      decoration: task.isCompleted
-                                          ? TextDecoration.lineThrough
-                                          : TextDecoration.none,
-                                      decorationColor: Colors.white,
+                                      fontSize: 12,
                                     ),
                                   ),
                                   Text(
-                                    'Date: ${task.date.day}/${task.date.month}/${task.date.year} at ${task.time.format(context)}',
-                                    style: const TextStyle(color: Colors.white),
-                                  ),
-                                  Text(
                                     'Category: ${task.category.label}',
-                                    style: const TextStyle(color: Colors.white),
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 12,
+                                    ),
                                   ),
                                 ],
                               ),
                             ),
+
+                            SizedBox(width: 6),
                             Container(
-                              width: 40, // size of the circle
+                              width: 40,
                               height: 40,
                               decoration: BoxDecoration(
                                 color: task.category.color.withOpacity(0.5),

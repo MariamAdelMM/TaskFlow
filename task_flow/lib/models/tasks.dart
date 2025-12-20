@@ -49,6 +49,30 @@ extension TaskCategoryX on TaskCategory {
   }
 }
 
+extension TaskPriorityX on TaskPriority {
+  IconData get icon {
+    switch (this) {
+      case TaskPriority.low:
+        return Icons.flag_outlined;
+      case TaskPriority.medium:
+        return Icons.report_problem_outlined;
+      case TaskPriority.high:
+        return Icons.warning_amber_outlined;
+    }
+  }
+
+  Color get color {
+    switch (this) {
+      case TaskPriority.low:
+        return Colors.green;
+      case TaskPriority.medium:
+        return Colors.amber;
+      case TaskPriority.high:
+        return Colors.red;
+    }
+  }
+}
+
 class Task {
   //These are fields (properties) of the Task class
   final String id; // <-- Unique ID
