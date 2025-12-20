@@ -2,12 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:task_flow/models/tasks.dart';
+import 'package:task_flow/screens/add_task.dart';
 import '../providers/task_provider.dart';
 
 class TasksScreen extends ConsumerWidget {
   const TasksScreen({super.key});
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    void _onAddPressed() {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (_) => const AddTasksScreen()),
+      );
+    }
+
     final tasks = ref.watch(taskProvider);
 
     final Widget content = tasks.isEmpty
@@ -93,16 +102,20 @@ class TasksScreen extends ConsumerWidget {
                         ),
                         child: Row(
                           children: [
-                            Checkbox(
-                              value: task.isCompleted,
-                              activeColor: Theme.of(
-                                context,
-                              ).colorScheme.primary,
-                              onChanged: (_) {
-                                ref
-                                    .read(taskProvider.notifier)
-                                    .toggleComplete(index);
-                              },
+                            Transform.scale(
+                              scale: 1.2,
+                              child: Checkbox(
+                                value: task.isCompleted,
+                                activeColor: Theme.of(
+                                  context,
+                                ).colorScheme.primary,
+                                onChanged: (_) {
+                                  ref
+                                      .read(taskProvider.notifier)
+                                      .toggleComplete(index);
+                                },
+                                shape: const CircleBorder(),
+                              ),
                             ),
                             const SizedBox(width: 12),
                             Expanded(
@@ -209,6 +222,15 @@ class TasksScreen extends ConsumerWidget {
       body: SafeArea(
         child: Padding(padding: const EdgeInsets.all(6), child: content),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _onAddPressed,
+        elevation: 6,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(32)),
+        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+        child: const Icon(Icons.add, size: 32),
+      ),
+
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 }

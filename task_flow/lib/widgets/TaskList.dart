@@ -48,12 +48,16 @@ class TaskList extends ConsumerWidget {
                 ),
                 child: Row(
                   children: [
-                    Checkbox(
-                      value: task.isCompleted,
-                      activeColor: Theme.of(context).colorScheme.primary,
-                      onChanged: (_) {
-                        ref.read(taskProvider.notifier).toggleComplete(index);
-                      },
+                    Transform.scale(
+                      scale: 1.2,
+                      child: Checkbox(
+                        value: task.isCompleted,
+                        activeColor: Theme.of(context).colorScheme.primary,
+                        onChanged: (_) {
+                          ref.read(taskProvider.notifier).toggleComplete(index);
+                        },
+                        shape: const CircleBorder(),
+                      ),
                     ),
                     const SizedBox(width: 12),
                     Expanded(
@@ -87,6 +91,28 @@ class TaskList extends ConsumerWidget {
                       icon: const Icon(Icons.delete, color: Colors.redAccent),
                       onPressed: () {
                         ref.read(taskProvider.notifier).deleteTask(index);
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              'Task Deleted Successfully',
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.onSecondaryContainer,
+                              ),
+                            ),
+                            backgroundColor: Theme.of(
+                              context,
+                            ).colorScheme.primaryContainer,
+                            margin: const EdgeInsets.all(16),
+                            behavior: SnackBarBehavior.floating,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
+                        );
                       },
                     ),
                   ],
