@@ -292,18 +292,21 @@ class _AddTasksScreenState extends ConsumerState<AddTasksScreen> {
                                 horizontal: 4,
                               ),
                               child: ChoiceChip(
-                                label: Center(
-                                  child: Text(
-                                    category.name[0].toUpperCase() +
-                                        category.name.substring(1),
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.bold,
-                                      color: Theme.of(
-                                        context,
-                                      ).colorScheme.onSecondaryContainer,
+                                label: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      category.name[0].toUpperCase() +
+                                          category.name.substring(1),
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.bold,
+                                        color: Theme.of(
+                                          context,
+                                        ).colorScheme.onSecondaryContainer,
+                                      ),
                                     ),
-                                  ),
+                                  ],
                                 ),
                                 selected: selectedCategory == category,
                                 onSelected: (_) {

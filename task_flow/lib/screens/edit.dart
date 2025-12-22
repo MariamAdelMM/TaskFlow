@@ -5,7 +5,8 @@ import 'package:task_flow/models/tasks.dart';
 import '../providers/task_provider.dart';
 
 class EditTasksScreen extends ConsumerStatefulWidget {
-  const EditTasksScreen({super.key});
+  const EditTasksScreen({super.key, required this.task});
+  final Task task;
 
   @override
   ConsumerState<EditTasksScreen> createState() => _EditTasksScreenState();
@@ -13,18 +14,33 @@ class EditTasksScreen extends ConsumerStatefulWidget {
 
 class _EditTasksScreenState extends ConsumerState<EditTasksScreen> {
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController _titleController = TextEditingController();
-  final TextEditingController _descriptionController = TextEditingController();
-  TaskPriority selected = TaskPriority.low;
-  TaskCategory selectedCategory = TaskCategory.work;
-  DateTime _selectedDate = DateTime.now();
-  TimeOfDay _selectedTime = TimeOfDay.now();
+  late final TextEditingController _titleController;
+  late final TextEditingController _descriptionController;
+  late TaskPriority selected;
+  late TaskCategory selectedCategory;
+  late DateTime _selectedDate;
+  late TimeOfDay _selectedTime;
 
   @override
   void initState() {
     super.initState();
-    _selectedDate = DateTime.now();
-    _selectedTime = TimeOfDay.now();
+    // Initialize controllers with existing task data
+    _titleController = TextEditingController(text: widget.task.title);
+    _descriptionController = TextEditingController(
+      text: widget.task.description,
+    );
+
+    selected = widget.task.priority;
+    selectedCategory = widget.task.category;
+    _selectedDate = widget.task.date;
+    _selectedTime = widget.task.time;
+  }
+
+  @override
+  void dispose() {
+    _titleController.dispose();
+    _descriptionController.dispose();
+    super.dispose();
   }
 
   String _formatDate(DateTime date) {
@@ -40,9 +56,7 @@ class _EditTasksScreenState extends ConsumerState<EditTasksScreen> {
         : hour > 12
         ? hour - 12
         : hour;
-
     final String minutes = minute.toString().padLeft(2, '0');
-
     return "$hour12:$minutes $period";
   }
 
@@ -51,7 +65,7 @@ class _EditTasksScreenState extends ConsumerState<EditTasksScreen> {
     return Scaffold(
       appBar: AppBar(
         systemOverlayStyle: SystemUiOverlayStyle.light,
-        title: Text('Add New Task'),
+        title: const Text('Edit Task'),
         centerTitle: true,
       ),
       backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
@@ -73,30 +87,19 @@ class _EditTasksScreenState extends ConsumerState<EditTasksScreen> {
                     ),
                   ),
                   const SizedBox(height: 8),
-
                   TextFormField(
-                    style: const TextStyle(color: Colors.white, fontSize: 16),
                     controller: _titleController,
-                    keyboardType: TextInputType.text,
+                    style: const TextStyle(color: Colors.white),
                     decoration: InputDecoration(
-                      labelText: "Title",
-                      labelStyle: TextStyle(
-                        fontSize: 12,
-                        color: Theme.of(context).colorScheme.primaryContainer,
-                        fontWeight: FontWeight.bold,
-                      ),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
                     ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return "Task Title is required";
-                      }
-                      return null;
-                    },
+                    validator: (value) => value == null || value.isEmpty
+                        ? "Task Title is required"
+                        : null,
                   ),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 12),
                   Text(
                     'Description',
                     style: TextStyle(
@@ -107,30 +110,20 @@ class _EditTasksScreenState extends ConsumerState<EditTasksScreen> {
                   ),
                   const SizedBox(height: 8),
                   TextFormField(
-                    style: const TextStyle(color: Colors.white, fontSize: 16),
                     controller: _descriptionController,
+                    style: const TextStyle(color: Colors.white),
                     keyboardType: TextInputType.multiline,
                     maxLines: 3,
                     decoration: InputDecoration(
-                      labelText: "Description",
-                      alignLabelWithHint: true,
-                      labelStyle: TextStyle(
-                        fontSize: 12,
-                        color: Theme.of(context).colorScheme.primaryContainer,
-                        fontWeight: FontWeight.bold,
-                      ),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
                     ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return "Description is required";
-                      }
-                      return null;
-                    },
+                    validator: (value) => value == null || value.isEmpty
+                        ? "Description is required"
+                        : null,
                   ),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 12),
                   Row(
                     children: [
                       Expanded(
@@ -138,7 +131,7 @@ class _EditTasksScreenState extends ConsumerState<EditTasksScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Due date',
+                              'Due Date',
                               style: TextStyle(
                                 fontSize: 16,
                                 color: Theme.of(context).colorScheme.onPrimary,
@@ -160,10 +153,8 @@ class _EditTasksScreenState extends ConsumerState<EditTasksScreen> {
                               ),
 
                               child: InkWell(
-                                //prssable
                                 onTap: () async {
-                                  DateTime? pickedDate = await showDatePicker(
-                                    //The ? means nullable. this variable can be either a DateTime OR null.
+                                  final pickedDate = await showDatePicker(
                                     context: context,
                                     initialDate: _selectedDate,
                                     firstDate: DateTime.now(),
@@ -200,7 +191,6 @@ class _EditTasksScreenState extends ConsumerState<EditTasksScreen> {
                           ],
                         ),
                       ),
-
                       const SizedBox(width: 16),
                       Expanded(
                         child: Column(
@@ -217,14 +207,12 @@ class _EditTasksScreenState extends ConsumerState<EditTasksScreen> {
                             const SizedBox(height: 8),
                             InkWell(
                               onTap: () async {
-                                TimeOfDay? pickedTime = await showTimePicker(
+                                final pickedTime = await showTimePicker(
                                   context: context,
                                   initialTime: _selectedTime,
                                 );
                                 if (pickedTime != null) {
-                                  setState(() {
-                                    _selectedTime = pickedTime;
-                                  });
+                                  setState(() => _selectedTime = pickedTime);
                                 }
                               },
                               child: Container(
@@ -267,8 +255,7 @@ class _EditTasksScreenState extends ConsumerState<EditTasksScreen> {
                       ),
                     ],
                   ),
-
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 12),
                   Text(
                     'Category',
                     style: TextStyle(
@@ -278,7 +265,6 @@ class _EditTasksScreenState extends ConsumerState<EditTasksScreen> {
                     ),
                   ),
                   const SizedBox(height: 4),
-
                   Column(
                     children: [
                       Row(
@@ -347,7 +333,7 @@ class _EditTasksScreenState extends ConsumerState<EditTasksScreen> {
                     ],
                   ),
 
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 12),
                   Text(
                     'Priority',
                     style: TextStyle(
@@ -357,7 +343,6 @@ class _EditTasksScreenState extends ConsumerState<EditTasksScreen> {
                     ),
                   ),
                   const SizedBox(height: 4),
-
                   Row(
                     children: TaskPriority.values.map((priority) {
                       //creates 3 chips
@@ -396,7 +381,6 @@ class _EditTasksScreenState extends ConsumerState<EditTasksScreen> {
         ),
       ),
       bottomNavigationBar: SafeArea(
-        //A bottom navigation bar to display at the bottom of the scaffold.
         child: Padding(
           padding: const EdgeInsets.all(24),
           child: SizedBox(
@@ -408,46 +392,28 @@ class _EditTasksScreenState extends ConsumerState<EditTasksScreen> {
                   borderRadius: BorderRadius.circular(12),
                 ),
               ),
-              onPressed: () async {
+              onPressed: () {
                 if (_formKey.currentState!.validate()) {
-                  final newTask = Task(
+                  final updatedTask = widget.task.copyWith(
                     title: _titleController.text,
                     description: _descriptionController.text,
                     date: _selectedDate,
                     time: _selectedTime,
                     category: selectedCategory,
                     priority: selected,
-                    isCompleted: false,
                   );
-                  ref.read(taskProvider.notifier).addTask(newTask);
 
+                  ref.read(taskProvider.notifier);
+                  // .updateTask(widget.task.id, updatedTask);
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(
-                        'Task Added successfully',
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                          color: Theme.of(
-                            context,
-                          ).colorScheme.onSecondaryContainer,
-                        ),
-                      ),
-                      backgroundColor: Theme.of(
-                        context,
-                      ).colorScheme.primaryContainer,
-                      margin: const EdgeInsets.all(16),
-                      behavior: SnackBarBehavior.floating,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                    ),
+                    const SnackBar(content: Text('Task updated successfully')),
                   );
-                  Navigator.pop(context, '/tabs');
+
+                  Navigator.pop(context);
                 }
               },
               child: Text(
-                "Edit Task",
+                "Save Changes",
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,

@@ -191,13 +191,12 @@ class TasksScreen extends ConsumerWidget {
                               icon: Icon(Icons.more_vert),
                               color: Colors.white,
                               onPressed: () {
-                                // Navigator.push(
-                                //   context,
-                                //   MaterialPageRoute(
-                                //     builder: (_) =>
-                                //         const EditTasksScreen(task: task),
-                                //   ),
-                                // );
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) => EditTasksScreen(task: task),
+                                  ),
+                                );
                               },
                             ),
                           ],
