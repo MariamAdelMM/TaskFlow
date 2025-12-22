@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:task_flow/models/tasks.dart';
 import 'package:task_flow/screens/add_task.dart';
+import 'package:task_flow/screens/details.dart';
 import 'package:task_flow/screens/edit.dart';
 import '../providers/task_provider.dart';
 
@@ -85,121 +86,132 @@ class TasksScreen extends ConsumerWidget {
                         ),
                       );
                     },
-                    child: Card(
-                      color: const Color.fromRGBO(31, 22, 43, 0.5),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16),
-                        side: BorderSide(
-                          color: Theme.of(
-                            context,
-                          ).colorScheme.onPrimary.withOpacity(0.5),
-                          width: 1,
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => DetailsScreen(task: task),
+                          ),
+                        );
+                      },
+                      child: Card(
+                        color: const Color.fromRGBO(31, 22, 43, 0.5),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16),
+                          side: BorderSide(
+                            color: Theme.of(
+                              context,
+                            ).colorScheme.onPrimary.withOpacity(0.5),
+                            width: 1,
+                          ),
                         ),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 16,
-                          horizontal: 12,
-                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 16,
+                            horizontal: 12,
+                          ),
 
-                        child: Row(
-                          children: [
-                            Transform.scale(
-                              scale: 1.2,
-                              child: Checkbox(
-                                value: task.isCompleted,
-                                activeColor: Theme.of(
-                                  context,
-                                ).colorScheme.primary,
-                                onChanged: (_) {
-                                  ref
-                                      .read(taskProvider.notifier)
-                                      .toggleComplete(index);
-                                },
-                                shape: const CircleBorder(),
-                              ),
-                            ),
-
-                            const SizedBox(width: 8),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Icon(
-                                        task.priority.icon,
-                                        color: task.priority.color,
-                                        size: 16,
-                                      ),
-
-                                      const SizedBox(width: 4),
-                                      Text(
-                                        task.title,
-                                        style: TextStyle(
-                                          color: Theme.of(
-                                            context,
-                                          ).colorScheme.primaryContainer,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16,
-                                          decoration: task.isCompleted
-                                              ? TextDecoration.lineThrough
-                                              : TextDecoration.none,
-                                          decorationColor: Colors.white,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-
-                                  Text(
-                                    'Due: ${task.date.day}/${task.date.month}/${task.date.year} at ${task.time.format(context)}',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 12,
-                                    ),
-                                  ),
-                                  Text(
-                                    'Category: ${task.category.label}',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 12,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-
-                            SizedBox(width: 6),
-                            Container(
-                              width: 40,
-                              height: 40,
-                              decoration: BoxDecoration(
-                                color: task.category.color.withOpacity(0.5),
-                                shape: BoxShape.circle,
-                              ),
-                              child: Center(
-                                child: Icon(
-                                  task.category.icon,
-                                  color: task.category.color,
-                                  size: 20,
+                          child: Row(
+                            children: [
+                              Transform.scale(
+                                scale: 1.2,
+                                child: Checkbox(
+                                  value: task.isCompleted,
+                                  activeColor: Theme.of(
+                                    context,
+                                  ).colorScheme.primary,
+                                  onChanged: (_) {
+                                    ref
+                                        .read(taskProvider.notifier)
+                                        .toggleComplete(task.id);
+                                  },
+                                  shape: const CircleBorder(),
                                 ),
                               ),
-                            ),
-                            IconButton(
-                              icon: Icon(Icons.more_vert),
-                              color: Colors.white,
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (_) => EditTasksScreen(task: task),
+
+                              const SizedBox(width: 8),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Icon(
+                                          task.priority.icon,
+                                          color: task.priority.color,
+                                          size: 16,
+                                        ),
+
+                                        const SizedBox(width: 4),
+                                        Text(
+                                          task.title,
+                                          style: TextStyle(
+                                            color: Theme.of(
+                                              context,
+                                            ).colorScheme.primaryContainer,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 16,
+                                            decoration: task.isCompleted
+                                                ? TextDecoration.lineThrough
+                                                : TextDecoration.none,
+                                            decorationColor: Colors.white,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+
+                                    Text(
+                                      'Due: ${task.date.day}/${task.date.month}/${task.date.year} at ${task.time.format(context)}',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 12,
+                                      ),
+                                    ),
+                                    Text(
+                                      'Category: ${task.category.label}',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 12,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+
+                              SizedBox(width: 6),
+                              Container(
+                                width: 40,
+                                height: 40,
+                                decoration: BoxDecoration(
+                                  color: task.category.color.withOpacity(0.5),
+                                  shape: BoxShape.circle,
+                                ),
+                                child: Center(
+                                  child: Icon(
+                                    task.category.icon,
+                                    color: task.category.color,
+                                    size: 20,
                                   ),
-                                );
-                              },
-                            ),
-                          ],
+                                ),
+                              ),
+                              IconButton(
+                                icon: Icon(Icons.more_vert),
+                                color: Colors.white,
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (_) =>
+                                          EditTasksScreen(task: task),
+                                    ),
+                                  );
+                                },
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),

@@ -77,7 +77,9 @@ class TaskList extends ConsumerWidget {
                         value: task.isCompleted,
                         activeColor: Theme.of(context).colorScheme.primary,
                         onChanged: (_) {
-                          ref.read(taskProvider.notifier).toggleComplete(index);
+                          ref
+                              .read(taskProvider.notifier)
+                              .toggleComplete(task.id);
                         },
                         shape: const CircleBorder(),
                       ),

@@ -40,14 +40,23 @@ class TaskNotifier extends StateNotifier<List<Task>> {
   }
 
   // 5. Toggle completion status
-  void toggleComplete(int index) {
-    final newState = [...state];
-    //creates a new Task object based on the old one, but with isCompleted toggled.
-    newState[index] = newState[index].copyWith(
-      isCompleted: !newState[index]
-          .isCompleted, //! the opposite of what i currently have
-    );
-    state = newState;
+  // void toggleComplete(int index) {
+  //   final newState = [...state];
+  //   //creates a new Task object based on the old one, but with isCompleted toggled.
+  //   newState[index] = newState[index].copyWith(
+  //     isCompleted: !newState[index]
+  //         .isCompleted, //! the opposite of what i currently have
+  //   );
+  //   state = newState;
+  // }
+  void toggleComplete(String id) {
+    state = [
+      for (final task in state)
+        if (task.id == id)
+          task.copyWith(isCompleted: !task.isCompleted)
+        else
+          task,
+    ];
   }
 
   // 6. Get task details by index
