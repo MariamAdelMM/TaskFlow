@@ -61,7 +61,7 @@ class TasksScreen extends ConsumerWidget {
                       child: const Icon(Icons.delete, color: Colors.white),
                     ),
                     onDismissed: (_) {
-                      ref.read(taskProvider.notifier).deleteTask(index);
+                      ref.read(taskProvider.notifier).deleteTask(task.id);
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content: Text(
@@ -223,7 +223,7 @@ class TasksScreen extends ConsumerWidget {
         onPressed: _onAddPressed,
         elevation: 6,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(32)),
-        backgroundColor: const Color.fromARGB(255, 180, 143, 220),
+        backgroundColor: const Color.fromARGB(255, 214, 192, 239),
         child: const Icon(Icons.add, size: 32),
       ),
 

@@ -67,6 +67,37 @@ class _EditTasksScreenState extends ConsumerState<EditTasksScreen> {
         systemOverlayStyle: SystemUiOverlayStyle.light,
         title: const Text('Edit Task'),
         centerTitle: true,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.delete_outline),
+            color: Theme.of(context).colorScheme.error,
+            iconSize: 30,
+            onPressed: () {
+              ref.read(taskProvider.notifier).deleteTask(widget.task.id);
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(
+                    'Task Deleted Successfully',
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                      color: Theme.of(context).colorScheme.onSecondaryContainer,
+                    ),
+                  ),
+                  backgroundColor: Theme.of(
+                    context,
+                  ).colorScheme.primaryContainer,
+                  margin: const EdgeInsets.all(16),
+                  behavior: SnackBarBehavior.floating,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+              );
+              Navigator.pop(context);
+            },
+          ),
+        ],
       ),
       backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
       body: SafeArea(

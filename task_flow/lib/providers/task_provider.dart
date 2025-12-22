@@ -28,9 +28,14 @@ class TaskNotifier extends StateNotifier<List<Task>> {
   }
 
   // 4. Delete a task at a given index
-  void deleteTask(int index) {
+  // void deleteTask(int index) {
+  //   final newState = [...state];
+  //   newState.removeAt(index);
+  //   state = newState;
+  // }
+  void deleteTask(String id) {
     final newState = [...state];
-    newState.removeAt(index);
+    newState.removeWhere((task) => task.id == id);
     state = newState;
   }
 

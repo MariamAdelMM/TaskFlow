@@ -113,7 +113,7 @@ class TaskList extends ConsumerWidget {
                     IconButton(
                       icon: const Icon(Icons.delete, color: Colors.redAccent),
                       onPressed: () {
-                        ref.read(taskProvider.notifier).deleteTask(index);
+                        ref.read(taskProvider.notifier).deleteTask(task.id);
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             content: Text(
