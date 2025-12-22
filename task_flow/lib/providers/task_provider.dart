@@ -14,9 +14,16 @@ class TaskNotifier extends StateNotifier<List<Task>> {
   }
 
   // 3. Update a task at a given index
-  void updateTask(int index, Task updatedTask) {
+  void updateTask(String id, Task updatedTask) {
     final newState = [...state]; //creates a copy of the current list.
-    newState[index] = updatedTask; //replaces the old task with the updated one.
+    // ❌ If you modify state directly, UI may not rebuild
+    // ✅ Creating a new list guarantees Riverpod detects the change
+    final index = newState.indexWhere(
+      (task) => task.id == id,
+    ); //Loops over every task in newState Compares task.id with the provided id Returns the index of the first match
+    if (index == -1) return; // to prevent crash
+    newState[index] =
+        updatedTask; //i take the task i want to update from the new array and make it equal to the updated task
     state = newState; //updates Riverpod state, which triggers UI rebuilds.
   }
 

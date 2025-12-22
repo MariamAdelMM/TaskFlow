@@ -265,72 +265,38 @@ class _EditTasksScreenState extends ConsumerState<EditTasksScreen> {
                     ),
                   ),
                   const SizedBox(height: 4),
-                  Column(
-                    children: [
-                      Row(
-                        children: TaskCategory.values.take(3).map((category) {
-                          return Expanded(
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 4,
-                              ),
-                              child: ChoiceChip(
-                                label: Center(
-                                  child: Text(
-                                    category.name[0].toUpperCase() +
-                                        category.name.substring(1),
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.bold,
-                                      color: Theme.of(
-                                        context,
-                                      ).colorScheme.onSecondaryContainer,
-                                    ),
-                                  ),
+                  Center(
+                    child: Wrap(
+                      spacing: 10,
+                      runSpacing: 0,
+                      children: TaskCategory.values.map((category) {
+                        final isSelected = selectedCategory == category;
+
+                        return SizedBox(
+                          width: (MediaQuery.of(context).size.width) / 3.7,
+                          child: ChoiceChip(
+                            label: Center(
+                              child: Text(
+                                category.name[0].toUpperCase() +
+                                    category.name.substring(1),
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold,
+                                  color: Theme.of(
+                                    context,
+                                  ).colorScheme.onSecondaryContainer,
                                 ),
-                                selected: selectedCategory == category,
-                                onSelected: (_) {
-                                  setState(() => selectedCategory = category);
-                                },
                               ),
                             ),
-                          );
-                        }).toList(),
-                      ),
-                      const SizedBox(height: 8),
-                      Row(
-                        children: TaskCategory.values.skip(3).take(3).map((
-                          category,
-                        ) {
-                          return Expanded(
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 4,
-                              ),
-                              child: ChoiceChip(
-                                label: Center(
-                                  child: Text(
-                                    category.name[0].toUpperCase() +
-                                        category.name.substring(1),
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.bold,
-                                      color: Theme.of(
-                                        context,
-                                      ).colorScheme.onSecondaryContainer,
-                                    ),
-                                  ),
-                                ),
-                                selected: selectedCategory == category,
-                                onSelected: (_) {
-                                  setState(() => selectedCategory = category);
-                                },
-                              ),
-                            ),
-                          );
-                        }).toList(),
-                      ),
-                    ],
+                            selected: isSelected,
+                            onSelected: (_) {
+                              setState(() => selectedCategory = category);
+                            },
+                          ),
+                        );
+                      }).toList(),
+                    ),
                   ),
 
                   const SizedBox(height: 12),
@@ -343,17 +309,21 @@ class _EditTasksScreenState extends ConsumerState<EditTasksScreen> {
                     ),
                   ),
                   const SizedBox(height: 4),
-                  Row(
-                    children: TaskPriority.values.map((priority) {
-                      //creates 3 chips
-                      return Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 4),
+                  Center(
+                    child: Wrap(
+                      spacing: 10,
+                      runSpacing: 0,
+                      children: TaskPriority.values.map((priority) {
+                        final isSelected = selected == priority;
+
+                        return SizedBox(
+                          width: (MediaQuery.of(context).size.width) / 3.7,
                           child: ChoiceChip(
                             label: Center(
                               child: Text(
                                 priority.name[0].toUpperCase() +
                                     priority.name.substring(1),
+                                textAlign: TextAlign.center,
                                 style: TextStyle(
                                   fontSize: 12,
                                   fontWeight: FontWeight.bold,
@@ -363,16 +333,14 @@ class _EditTasksScreenState extends ConsumerState<EditTasksScreen> {
                                 ),
                               ),
                             ),
-                            selected:
-                                selected ==
-                                priority, //decides which chip is active
-                            onSelected: (i) {
+                            selected: isSelected,
+                            onSelected: (_) {
                               setState(() => selected = priority);
                             },
                           ),
-                        ),
-                      );
-                    }).toList(),
+                        );
+                      }).toList(),
+                    ),
                   ),
                 ],
               ),
@@ -403,10 +371,30 @@ class _EditTasksScreenState extends ConsumerState<EditTasksScreen> {
                     priority: selected,
                   );
 
-                  ref.read(taskProvider.notifier);
-                  // .updateTask(widget.task.id, updatedTask);
+                  ref
+                      .read(taskProvider.notifier)
+                      .updateTask(widget.task.id, updatedTask);
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Task updated successfully')),
+                    SnackBar(
+                      content: Text(
+                        'Task updated successfully',
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                          color: Theme.of(
+                            context,
+                          ).colorScheme.onSecondaryContainer,
+                        ),
+                      ),
+                      backgroundColor: Theme.of(
+                        context,
+                      ).colorScheme.primaryContainer,
+                      margin: const EdgeInsets.all(16),
+                      behavior: SnackBarBehavior.floating,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
                   );
 
                   Navigator.pop(context);
