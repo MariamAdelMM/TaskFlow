@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:task_flow/screens/edit.dart';
 import 'package:task_flow/screens/home.dart';
 import 'package:task_flow/screens/login.dart';
 import 'package:task_flow/screens/register.dart';
@@ -48,6 +49,7 @@ class MyApp extends StatelessWidget {
         '/login': (context) => const LoginScreen(),
         '/register': (context) => const RegisterScreen(),
         '/tabs': (context) => const Tabs(),
+        '/edit': (context) => const EditTasksScreen(),
       },
     );
   }

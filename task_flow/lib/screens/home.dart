@@ -117,6 +117,40 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     const SizedBox(height: 10),
 
+                    Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            width: 60,
+                            height: 60,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Color(0xFF5389d5).withOpacity(0.15),
+                            ),
+                            child: const Center(
+                              child: Icon(
+                                Icons.checklist_outlined,
+                                size: 40,
+                                color: Color(0xFF5389d5),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 12),
+                          const Text(
+                            'No Tasks Yet',
+                            style: TextStyle(
+                              color: Color(0xFF5389d5),
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    const SizedBox(height: 10),
+
                     Text(
                       'My Tasks',
                       style: const TextStyle(

@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:task_flow/models/tasks.dart';
 import 'package:task_flow/screens/add_task.dart';
+import 'package:task_flow/screens/edit.dart';
 import '../providers/task_provider.dart';
 
 class TasksScreen extends ConsumerWidget {
@@ -100,6 +101,7 @@ class TasksScreen extends ConsumerWidget {
                           vertical: 16,
                           horizontal: 12,
                         ),
+
                         child: Row(
                           children: [
                             Transform.scale(
@@ -117,30 +119,21 @@ class TasksScreen extends ConsumerWidget {
                                 shape: const CircleBorder(),
                               ),
                             ),
-                            const SizedBox(width: 12),
+
+                            const SizedBox(width: 8),
                             Expanded(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Row(
                                     children: [
-                                      Container(
-                                        width: 20,
-                                        height: 20,
-                                        decoration: BoxDecoration(
-                                          color: task.priority.color
-                                              .withOpacity(0.5),
-                                          shape: BoxShape.circle,
-                                        ),
-                                        child: Center(
-                                          child: Icon(
-                                            task.priority.icon,
-                                            color: task.priority.color,
-                                            size: 14,
-                                          ),
-                                        ),
+                                      Icon(
+                                        task.priority.icon,
+                                        color: task.priority.color,
+                                        size: 16,
                                       ),
-                                      const SizedBox(width: 8),
+
+                                      const SizedBox(width: 4),
                                       Text(
                                         task.title,
                                         style: TextStyle(
@@ -194,6 +187,19 @@ class TasksScreen extends ConsumerWidget {
                                 ),
                               ),
                             ),
+                            IconButton(
+                              icon: Icon(Icons.more_vert),
+                              color: Colors.white,
+                              onPressed: () {
+                                // Navigator.push(
+                                //   context,
+                                //   MaterialPageRoute(
+                                //     builder: (_) =>
+                                //         const EditTasksScreen(task: task),
+                                //   ),
+                                // );
+                              },
+                            ),
                           ],
                         ),
                       ),
@@ -209,14 +215,6 @@ class TasksScreen extends ConsumerWidget {
         systemOverlayStyle: SystemUiOverlayStyle.light,
         title: Text('Task List'),
         centerTitle: true,
-        actions: [
-          IconButton(
-            icon: Icon(Icons.more_vert),
-            onPressed: () {
-              print('Icon tapped!');
-            },
-          ),
-        ],
       ),
       backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
       body: SafeArea(

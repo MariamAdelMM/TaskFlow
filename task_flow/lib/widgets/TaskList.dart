@@ -11,12 +11,35 @@ class TaskList extends ConsumerWidget {
     final tasks = ref.watch(taskProvider);
 
     if (tasks.isEmpty) {
-      return Text(
-        'No tasks yet',
-        style: TextStyle(
-          color: Colors.white,
-          fontSize: 16,
-          fontWeight: FontWeight.bold,
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              width: 60,
+              height: 60,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Color(0xFF4ADB7E).withOpacity(0.15),
+              ),
+              child: const Center(
+                child: Icon(
+                  Icons.add_to_photos_sharp,
+                  size: 40,
+                  color: Color(0xFF4ADB7E),
+                ),
+              ),
+            ),
+            const SizedBox(height: 12),
+            const Text(
+              'Start Adding New Tasks Now!',
+              style: TextStyle(
+                color: Color(0xFF4ADB7E),
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
         ),
       );
     }
