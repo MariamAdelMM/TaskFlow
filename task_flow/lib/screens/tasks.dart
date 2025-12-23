@@ -235,7 +235,7 @@ class TasksScreen extends ConsumerWidget {
         onPressed: _onAddPressed,
         elevation: 6,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(32)),
-        backgroundColor: const Color.fromARGB(255, 214, 192, 239),
+        backgroundColor: const Color.fromARGB(255, 180, 143, 220),
         child: const Icon(Icons.add, size: 32),
       ),
 
