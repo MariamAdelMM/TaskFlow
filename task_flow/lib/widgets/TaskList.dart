@@ -103,11 +103,19 @@ class TaskList extends ConsumerWidget {
                           ),
                           Text(
                             'Date: ${task.date.day}/${task.date.month}/${task.date.year} at ${task.time.format(context)}',
-                            style: const TextStyle(color: Colors.white),
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 12,
+                            ),
                           ),
                           Text(
                             'Category: ${task.category.label}',
-                            style: const TextStyle(color: Colors.white),
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 12,
+                            ),
                           ),
                         ],
                       ),
