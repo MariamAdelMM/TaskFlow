@@ -12,6 +12,15 @@ final priorityFilterProvider = StateProvider<TaskPriority?>((ref) => null);
 // This holds the current priority filter.
 // It is nullable (TaskPriority?) because null represents "Show All".
 // Purpose: When a user clicks a "High" or "Low" chip, you will store that choice here.
+/////
+final dateFilterProvider = StateProvider<DateTime?>((ref) => null);
+// null = show all dates
+// DateTime(today) = show only tasks for that day
+
+///helper function
+bool isSameDay(DateTime a, DateTime b) {
+  return a.year == b.year && a.month == b.month && a.day == b.day;
+}
 
 final filteredTasksProvider = Provider<List<Task>>((ref) {
   //a provider that will return a List<Task> to your UI.
@@ -19,6 +28,10 @@ final filteredTasksProvider = Provider<List<Task>>((ref) {
   final searchTerm = ref.watch(taskSearchProvider).toLowerCase();
   final selectedPriority = ref.watch(priorityFilterProvider);
   //Note: Because we use ref.watch, this whole function re-runs automatically every time any of those three things change.
+
+  // Get the current date at midnight (start of today)
+  final now = DateTime.now();
+  final today = DateTime(now.year, now.month, now.day);
   return allTasks.where((task) {
     //If the logic inside returns true, the task stays; if false, it's removed from the view.
     final matchesSearch = task.title.toLowerCase().contains(searchTerm);
@@ -27,7 +40,8 @@ final filteredTasksProvider = Provider<List<Task>>((ref) {
         selectedPriority == null || task.priority == selectedPriority;
     //selectedPriority == null ==>If no filter is chosen, this is always true (show everything).
     //This ensures that when no filter is selected, all tasks are allowed to show up.
-    return matchesSearch && matchesPriority;
+    final matchesDate = isSameDay(task.date, today);
+    return matchesSearch && matchesPriority && matchesDate;
   }).toList();
 });
 //StateProvider and StateNotifierProvider (which uses a StateNotifier)
