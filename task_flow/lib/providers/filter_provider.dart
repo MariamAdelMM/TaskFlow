@@ -45,13 +45,12 @@ final filteredTasksProvider = Provider<List<Task>>((ref) {
   }).toList();
 });
 //StateProvider and StateNotifierProvider (which uses a StateNotifier)
-// are two different tools used for different levels of complexity. 
+// are two different tools used for different levels of complexity.
 //You aren't "wrong"—StateNotifier is a very common way to manage state,
 // but StateProvider is a simpler alternative for basic data.
 //it is A simple "box" that holds a single value (like a String, a Boolean, or an Integer).
 // How it works: You can change its value directly from the UI using ref.read(provider.notifier).state = newValue.
 //Best For: Filters, search bars, toggles, or simple counters.
-
 
 //StateNotifier is a class used for complex states where you
 // want to keep the "business logic" separate from the UI.

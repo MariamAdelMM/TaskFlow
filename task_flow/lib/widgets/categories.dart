@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:task_flow/providers/task_provider.dart';
 
 //int getCompletedCount(List<Task> tasks) =>
 // tasks.where((t) => t.status == TaskStatus.completed).length;
@@ -11,29 +13,35 @@ import 'package:flutter/material.dart';
 // print('Button clicked');
 // },
 
-class CategoriesItems extends StatelessWidget {
+class CategoriesItems extends ConsumerWidget {
   const CategoriesItems({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final dailyTasks = ref.watch(taskProvider);
+    final completedCount = dailyTasks.where((task) => task.isCompleted).length;
+    final incompleteCount = dailyTasks
+        .where((task) => !task.isCompleted)
+        .length;
+
     final List<Map<String, dynamic>> items = [
       {
         'color': const Color(0xFF4ADB7E),
         'icon': Icons.task_alt,
         'label': 'Completed',
-        'number': 0,
+        'number': completedCount,
       },
       {
         'color': const Color(0xFFf97171),
         'icon': Icons.timer,
-        'label': 'Overdue',
-        'number': 0,
+        'label': 'Upcoming',
+        'number': incompleteCount,
       },
       {
         'color': const Color(0xFF5389d5),
         'icon': Icons.analytics,
-        'label': 'Upcoming',
-        'number': 0,
+        'label': 'Total',
+        'number': dailyTasks.length,
       },
     ];
 

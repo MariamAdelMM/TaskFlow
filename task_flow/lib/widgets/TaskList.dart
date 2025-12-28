@@ -47,7 +47,7 @@ class TaskList extends ConsumerWidget {
     return SizedBox(
       width: double.infinity,
       child: ListView.builder(
-        itemCount: tasks.length > 2 ? 2 : tasks.length,
+        itemCount: tasks.length,
         itemBuilder: (context, index) {
           final task = tasks[index];
 
