@@ -30,8 +30,8 @@ final filteredTasksProvider = Provider<List<Task>>((ref) {
   //Note: Because we use ref.watch, this whole function re-runs automatically every time any of those three things change.
 
   // Get the current date at midnight (start of today)
-  final now = DateTime.now();
-  final today = DateTime(now.year, now.month, now.day);
+  // final now = DateTime.now();
+  // final today = DateTime(now.year, now.month, now.day);
   return allTasks.where((task) {
     //If the logic inside returns true, the task stays; if false, it's removed from the view.
     final matchesSearch = task.title.toLowerCase().contains(searchTerm);
@@ -40,8 +40,8 @@ final filteredTasksProvider = Provider<List<Task>>((ref) {
         selectedPriority == null || task.priority == selectedPriority;
     //selectedPriority == null ==>If no filter is chosen, this is always true (show everything).
     //This ensures that when no filter is selected, all tasks are allowed to show up.
-    final matchesDate = isSameDay(task.date, today);
-    return matchesSearch && matchesPriority && matchesDate;
+    // final matchesDate = isSameDay(task.date, today);
+    return matchesSearch && matchesPriority;
   }).toList();
 });
 //StateProvider and StateNotifierProvider (which uses a StateNotifier)

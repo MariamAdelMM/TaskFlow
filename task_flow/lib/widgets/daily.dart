@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:task_flow/providers/filter_provider.dart';
+import 'package:task_flow/providers/task_provider.dart';
 
 // Helper to get month name
 String _getMonthName(int month) {
@@ -26,10 +26,10 @@ class DailyTasksScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final dailyTasks = ref.watch(filteredTasksProvider);
+    final tasks = ref.watch(taskProvider);
+    final count = tasks.where((task) => !task.isCompleted).length;
     final String dateStr =
         "${DateTime.now().day} ${_getMonthName(DateTime.now().month)}";
-    final count = dailyTasks.length;
     return Padding(
       padding: const EdgeInsets.all(8),
       child: Container(
@@ -87,7 +87,7 @@ class DailyTasksScreen extends ConsumerWidget {
               ),
             ),
             Text(
-              count == 0 ? 'Enjoy your free day!' : 'to complete today.',
+              count == 0 ? 'Enjoy your free day!' : 'to complete.',
               style: TextStyle(
                 color: Colors.white.withOpacity(0.6),
                 fontSize: 18,

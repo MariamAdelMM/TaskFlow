@@ -109,7 +109,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     const SizedBox(height: 10),
 
                     Text(
-                      "Today's Tasks",
+                      "Pending Tasks",
                       style: const TextStyle(
                         fontSize: 24,
                         color: Colors.white,

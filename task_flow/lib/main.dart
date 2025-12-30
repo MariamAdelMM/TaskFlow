@@ -45,15 +45,15 @@ class MyApp extends StatelessWidget {
         ),
       ),
       themeMode: ThemeMode.system,
-      darkTheme: ThemeData(
-        useMaterial3: true,
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color.fromARGB(255, 130, 45, 186),
-          brightness: Brightness.dark,
-          surface: const Color.fromARGB(255, 3, 3, 19),
-          onSurface: Colors.white,
-        ),
-      ),
+      // darkTheme: ThemeData(
+      //   useMaterial3: true,
+      //   colorScheme: ColorScheme.fromSeed(
+      //     seedColor: const Color.fromARGB(255, 130, 45, 186),
+      //     brightness: Brightness.dark,
+      //     surface: const Color.fromARGB(255, 3, 3, 19),
+      //     onSurface: Colors.white,
+      //   ),
+      // ),
       debugShowCheckedModeBanner: false,
       initialRoute: '/splash',
       routes: {

@@ -52,185 +52,111 @@ class _AddTasksScreenState extends ConsumerState<AddTasksScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       appBar: AppBar(
         systemOverlayStyle: SystemUiOverlayStyle.light,
         title: Text('Add New Task'),
         centerTitle: true,
       ),
       backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(24.0),
-          child: SingleChildScrollView(
-            child: Form(
-              key: _formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Task Title',
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Theme.of(context).colorScheme.onPrimary,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-
-                  TextFormField(
-                    style: const TextStyle(color: Colors.white, fontSize: 16),
-                    controller: _titleController,
-                    keyboardType: TextInputType.text,
-                    decoration: InputDecoration(
-                      labelText: "Title",
-                      labelStyle: TextStyle(
-                        fontSize: 12,
-                        color: Theme.of(context).colorScheme.primaryContainer,
+      body: GestureDetector(
+        onTap: () {
+          FocusScope.of(context).unfocus();
+        },
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(24.0),
+            child: SingleChildScrollView(
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Task Title',
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Theme.of(context).colorScheme.onPrimary,
                         fontWeight: FontWeight.bold,
                       ),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
                     ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return "Task Title is required";
-                      }
-                      return null;
-                    },
-                  ),
-                  const SizedBox(height: 10),
-                  Text(
-                    'Description',
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Theme.of(context).colorScheme.onPrimary,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  TextFormField(
-                    style: const TextStyle(color: Colors.white, fontSize: 16),
-                    controller: _descriptionController,
-                    keyboardType: TextInputType.multiline,
-                    maxLines: 3,
-                    decoration: InputDecoration(
-                      labelText: "Description",
-                      alignLabelWithHint: true,
-                      labelStyle: TextStyle(
-                        fontSize: 12,
-                        color: Theme.of(context).colorScheme.primaryContainer,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                    ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return "Description is required";
-                      }
-                      return null;
-                    },
-                  ),
-                  const SizedBox(height: 10),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Due date',
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: Theme.of(context).colorScheme.onPrimary,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            const SizedBox(height: 8),
-                            Container(
-                              height: 50,
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 12,
-                              ),
-                              alignment: Alignment.centerLeft,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(12),
-                                color: Theme.of(
-                                  context,
-                                ).colorScheme.primaryContainer,
-                              ),
+                    const SizedBox(height: 8),
 
-                              child: InkWell(
-                                //prssable
-                                onTap: () async {
-                                  DateTime? pickedDate = await showDatePicker(
-                                    //The ? means nullable. this variable can be either a DateTime OR null.
-                                    context: context,
-                                    initialDate: _selectedDate,
-                                    firstDate: DateTime.now(),
-                                    lastDate: DateTime(2030),
-                                  );
-                                  if (pickedDate != null) {
-                                    setState(() => _selectedDate = pickedDate);
-                                  }
-                                },
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Icon(
-                                      Icons.calendar_today,
-                                      color: Theme.of(
-                                        context,
-                                      ).colorScheme.onSecondaryContainer,
-                                    ),
-                                    const SizedBox(width: 4),
-
-                                    Text(
-                                      _formatDate(_selectedDate),
-                                      style: TextStyle(
-                                        color: Theme.of(
-                                          context,
-                                        ).colorScheme.onSecondaryContainer,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ],
+                    TextFormField(
+                      style: const TextStyle(color: Colors.white, fontSize: 16),
+                      controller: _titleController,
+                      keyboardType: TextInputType.text,
+                      decoration: InputDecoration(
+                        labelText: "Title",
+                        labelStyle: TextStyle(
+                          fontSize: 12,
+                          color: Theme.of(context).colorScheme.primaryContainer,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
                         ),
                       ),
-
-                      const SizedBox(width: 16),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Time',
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: Theme.of(context).colorScheme.onPrimary,
-                                fontWeight: FontWeight.bold,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "Task Title is required";
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 10),
+                    Text(
+                      'Description',
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Theme.of(context).colorScheme.onPrimary,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    TextFormField(
+                      style: const TextStyle(color: Colors.white, fontSize: 16),
+                      controller: _descriptionController,
+                      keyboardType: TextInputType.multiline,
+                      maxLines: 3,
+                      decoration: InputDecoration(
+                        labelText: "Description",
+                        alignLabelWithHint: true,
+                        labelStyle: TextStyle(
+                          fontSize: 12,
+                          color: Theme.of(context).colorScheme.primaryContainer,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "Description is required";
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 10),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Due date',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: Theme.of(
+                                    context,
+                                  ).colorScheme.onPrimary,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
-                            ),
-                            const SizedBox(height: 8),
-                            InkWell(
-                              onTap: () async {
-                                TimeOfDay? pickedTime = await showTimePicker(
-                                  context: context,
-                                  initialTime: _selectedTime,
-                                );
-                                if (pickedTime != null) {
-                                  setState(() {
-                                    _selectedTime = pickedTime;
-                                  });
-                                }
-                              },
-                              child: Container(
+                              const SizedBox(height: 8),
+                              Container(
                                 height: 50,
                                 padding: const EdgeInsets.symmetric(
                                   horizontal: 12,
@@ -242,125 +168,211 @@ class _AddTasksScreenState extends ConsumerState<AddTasksScreen> {
                                     context,
                                   ).colorScheme.primaryContainer,
                                 ),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Icon(
-                                      Icons.access_time,
-                                      color: Theme.of(
-                                        context,
-                                      ).colorScheme.onSecondaryContainer,
-                                    ),
-                                    const SizedBox(width: 4),
-                                    Text(
-                                      _formatTime(_selectedTime),
-                                      style: TextStyle(
+
+                                child: InkWell(
+                                  //prssable
+                                  onTap: () async {
+                                    DateTime? pickedDate = await showDatePicker(
+                                      //The ? means nullable. this variable can be either a DateTime OR null.
+                                      context: context,
+                                      initialDate: _selectedDate,
+                                      firstDate: DateTime.now(),
+                                      lastDate: DateTime(2030),
+                                    );
+                                    if (pickedDate != null) {
+                                      setState(
+                                        () => _selectedDate = pickedDate,
+                                      );
+                                    }
+                                  },
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Icon(
+                                        Icons.calendar_today,
                                         color: Theme.of(
                                           context,
                                         ).colorScheme.onSecondaryContainer,
-                                        fontWeight: FontWeight.bold,
                                       ),
-                                    ),
-                                  ],
+                                      const SizedBox(width: 4),
+
+                                      Text(
+                                        _formatDate(_selectedDate),
+                                        style: TextStyle(
+                                          color: Theme.of(
+                                            context,
+                                          ).colorScheme.onSecondaryContainer,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
+
+                        const SizedBox(width: 16),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Time',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: Theme.of(
+                                    context,
+                                  ).colorScheme.onPrimary,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              const SizedBox(height: 8),
+                              InkWell(
+                                onTap: () async {
+                                  TimeOfDay? pickedTime = await showTimePicker(
+                                    context: context,
+                                    initialTime: _selectedTime,
+                                  );
+                                  if (pickedTime != null) {
+                                    setState(() {
+                                      _selectedTime = pickedTime;
+                                    });
+                                  }
+                                },
+                                child: Container(
+                                  height: 50,
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 12,
+                                  ),
+                                  alignment: Alignment.centerLeft,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(12),
+                                    color: Theme.of(
+                                      context,
+                                    ).colorScheme.primaryContainer,
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Icon(
+                                        Icons.access_time,
+                                        color: Theme.of(
+                                          context,
+                                        ).colorScheme.onSecondaryContainer,
+                                      ),
+                                      const SizedBox(width: 4),
+                                      Text(
+                                        _formatTime(_selectedTime),
+                                        style: TextStyle(
+                                          color: Theme.of(
+                                            context,
+                                          ).colorScheme.onSecondaryContainer,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+
+                    const SizedBox(height: 10),
+                    Text(
+                      'Category',
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Theme.of(context).colorScheme.onPrimary,
+                        fontWeight: FontWeight.bold,
                       ),
-                    ],
-                  ),
-
-                  const SizedBox(height: 10),
-                  Text(
-                    'Category',
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Theme.of(context).colorScheme.onPrimary,
-                      fontWeight: FontWeight.bold,
                     ),
-                  ),
-                  const SizedBox(height: 4),
+                    const SizedBox(height: 4),
 
-                  Center(
-                    child: Wrap(
-                      spacing: 10,
-                      runSpacing: 0,
-                      children: TaskCategory.values.map((category) {
-                        final isSelected = selectedCategory == category;
+                    Center(
+                      child: Wrap(
+                        spacing: 10,
+                        runSpacing: 0,
+                        children: TaskCategory.values.map((category) {
+                          final isSelected = selectedCategory == category;
 
-                        return SizedBox(
-                          width: (MediaQuery.of(context).size.width) / 3.7,
-                          child: ChoiceChip(
-                            label: Center(
-                              child: Text(
-                                category.name[0].toUpperCase() +
-                                    category.name.substring(1),
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.bold,
-                                  color: Theme.of(
-                                    context,
-                                  ).colorScheme.onSecondaryContainer,
+                          return SizedBox(
+                            width: (MediaQuery.of(context).size.width) / 3.7,
+                            child: ChoiceChip(
+                              label: Center(
+                                child: Text(
+                                  category.name[0].toUpperCase() +
+                                      category.name.substring(1),
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold,
+                                    color: Theme.of(
+                                      context,
+                                    ).colorScheme.onSecondaryContainer,
+                                  ),
                                 ),
                               ),
+                              selected: isSelected,
+                              onSelected: (_) {
+                                setState(() => selectedCategory = category);
+                              },
                             ),
-                            selected: isSelected,
-                            onSelected: (_) {
-                              setState(() => selectedCategory = category);
-                            },
-                          ),
-                        );
-                      }).toList(),
+                          );
+                        }).toList(),
+                      ),
                     ),
-                  ),
 
-                  const SizedBox(height: 10),
-                  Text(
-                    'Priority',
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Theme.of(context).colorScheme.onPrimary,
-                      fontWeight: FontWeight.bold,
+                    const SizedBox(height: 10),
+                    Text(
+                      'Priority',
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Theme.of(context).colorScheme.onPrimary,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 4),
+                    const SizedBox(height: 4),
 
-                  Center(
-                    child: Wrap(
-                      spacing: 10,
-                      runSpacing: 0,
-                      children: TaskPriority.values.map((priority) {
-                        final isSelected = selected == priority;
+                    Center(
+                      child: Wrap(
+                        spacing: 10,
+                        runSpacing: 0,
+                        children: TaskPriority.values.map((priority) {
+                          final isSelected = selected == priority;
 
-                        return SizedBox(
-                          width: (MediaQuery.of(context).size.width) / 3.7,
-                          child: ChoiceChip(
-                            label: Center(
-                              child: Text(
-                                priority.name[0].toUpperCase() +
-                                    priority.name.substring(1),
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.bold,
-                                  color: Theme.of(
-                                    context,
-                                  ).colorScheme.onSecondaryContainer,
+                          return SizedBox(
+                            width: (MediaQuery.of(context).size.width) / 3.7,
+                            child: ChoiceChip(
+                              label: Center(
+                                child: Text(
+                                  priority.name[0].toUpperCase() +
+                                      priority.name.substring(1),
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold,
+                                    color: Theme.of(
+                                      context,
+                                    ).colorScheme.onSecondaryContainer,
+                                  ),
                                 ),
                               ),
+                              selected: isSelected,
+                              onSelected: (_) {
+                                setState(() => selected = priority);
+                              },
                             ),
-                            selected: isSelected,
-                            onSelected: (_) {
-                              setState(() => selected = priority);
-                            },
-                          ),
-                        );
-                      }).toList(),
+                          );
+                        }).toList(),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
