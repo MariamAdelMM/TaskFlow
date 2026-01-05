@@ -28,34 +28,75 @@ Analytics: Tracks user interaction patterns to improve UX flow.
 
 🚀 Setup & Initialization
 ===========================
-To run this project, you need to initialize the native platforms with your own Firebase configuration.
 
-1. General Requirements
-Flutter SDK (Latest Stable)
-A Firebase Project created in the Firebase Console.
+This guide walks you through setting up **TaskFlow** locally from scratch.
 
-2. Android Initialization
-Register App: Add an Android app to your Firebase project using the package name
-Config File: Download google-services.json and place it in android/app/.
-Run the following in your terminal:
+## 1️⃣ Prerequisites
+
+Make sure the following tools are installed and properly configured:
+
+* **Flutter SDK** (latest stable)
+
+  ```bash
+  flutter --version
+  ```
+
+* **Dart SDK** (included with Flutter)
+
+* **Android Studio** (Android SDK & Emulator)
+
+* **Xcode** (latest version, for iOS development)
+
+* **CocoaPods** (for iOS dependencies)
+
+  ```bash
+  sudo gem install cocoapods
+  ```
+
+Verify your environment:
+
+```bash
+flutter doctor
+```
+
+---
+
+## 2️⃣ Clone the Repository
+
+```bash
+git clone git@github.com:MariamAdelMM/TaskFlow.git
+cd taskflow
+```
+
+---
+
+## 3️⃣ Install Flutter Dependencies
+
+```bash
+flutter pub get
+```
+
+---
+
+## 4️⃣ Android Initialization
+
+```bash
 cd android
 ./gradlew clean
+cd ..
+```
 
-4. iOS Initialization
-Register App: Add an iOS app to your Firebase project using your Bundle ID.
-Config File: Download GoogleService-Info.plist and move it into ios/Runner/ using Xcode.
-Permissions: Add location and notification descriptions to ios/Runner/Info.plist.
-CocoaPods: Run the following in your terminal:
+---
+
+## 5️⃣ iOS Initialization
+
+```bash
 cd ios
 pod install
-
-5. Run the Project
-flutter pub get
+cd ..
+```
+---
+## 6️⃣ Run the Project
+```bash
 flutter run
-
-lib/
-├── core/          # FirebaseService, AppTheme, and Constants
-├── providers/     # Riverpod State Providers
-├── models/        # Task and User Data Models
-├── screens/       # UI Screens (Home, Profile, Details, Login)
-└── widgets/       # Custom reusable components
+```
